@@ -1,0 +1,8 @@
+Library/
+Temp/
+*.userprefs
+*.sln
+*.csproj
+*.unityproj
+*.user
+*.DS_store
