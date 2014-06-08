@@ -32,17 +32,18 @@ public class PlayerScript : Character
 	private GameObject prevRoom, reticle;
 	public bool mac = false;
 	public Texture2D healthBarGreen, healthBarRed;
-
+	
 	//Animator anim;
-
+	
 	
 	// Use this for initialization
 	public override void Start ()
 	{
 		base.Start();
 		rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+		Screen.showCursor = false;
 	}
-
+	
 	//Called whenever the gameObject is enabled.
 	public override void OnEnable ()
 	{
@@ -57,12 +58,12 @@ public class PlayerScript : Character
 		
 		ControlScript.controlCourier -= GetInput;
 	}
-
+	
 	// Update is called once per frame
 	public override void Update () 
 	{
 		base.Update();
-
+		
 		//Checking for debug mode
 		if(Debug.isDebugBuild)
 		{
@@ -77,7 +78,7 @@ public class PlayerScript : Character
 				Debug.Log("Control System Changed");
 			}
 		}
-
+		
 		if(prevRoom != room)
 		{
 			prevRoom = room;
@@ -86,29 +87,29 @@ public class PlayerScript : Character
 				PlayerRoom(room);
 			}
 		}
-
+		
 		//print (triggers);
-
+		
 		if(moveSpeed > 0 && canAct)
 		{
 			//audio.Play ();
 		}
-
+		
 		if(Input.GetKeyDown(stickyToggle))
 		{
 			if(isSticky)
 			{
 				isSticky = false;
 			} else isSticky = true;
-
+			
 			if(isSticky)
 			{
 				print("Sticky Mode activated.");
 			}
 			else print("Sticky Mode deactivated.");
 		}
-
-		if(Input.GetKeyDown(jump))
+		
+		if(Input.GetKeyDown(jump) || Input.GetKeyDown(KeyCode.Space))
 		{
 			if(Vector3.Dot(directionL, transform.up) < -0.7)
 			{
@@ -116,14 +117,14 @@ public class PlayerScript : Character
 			}
 			else
 			{
-				if(directionL.sqrMagnitude == 0)
+				if(directionL.sqrMagnitude < 0.02)
 				{
 					Jump(transform.up);
 				}
 				else Jump(directionL);
 			}
 		}
-
+		
 		if(Input.GetKeyDown(gravityShape))
 		{
 			fireMode = 1;
@@ -138,41 +139,41 @@ public class PlayerScript : Character
 			}
 			else Debug.Log("Gravity Mode Selection Error!");
 		}
-
+		
 	}
-
+	
 	//Physics
 	public override void FixedUpdate()
 	{
 		base.FixedUpdate();
-
+		
 		if(directionL.magnitude > 1) directionL.Normalize();
-
+		
 		Walk(directionL, Time.deltaTime);
-
+		
 		//Jetpack
-		if(canAct && Input.GetKey(jetPack))
+		if(canAct && (Input.GetKey(jetPack) || Input.GetKey(KeyCode.LeftShift)))
 		{
 			if(energy >= jetPackDrain)
 			{
 				//Magnitude = absolute value.
 				energy -= jetPackDrain * Time.deltaTime * new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0).magnitude;
 				rigidbody.AddForce(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) * jetPackForce * 10 * Time.deltaTime, ForceMode.Acceleration);
-
-
+				
+				
 				//Jetpack effect
-
+				
 				jetpackParticles.enableEmission = true;
-
+				
 			}
 		}
 		else
 		{
 			jetpackParticles.enableEmission = false;
 		}
-
-
-		if(triggers != 0 && !charging)
+		
+		
+		if((triggers != 0 || Input.GetMouseButton(0) || Input.GetMouseButton(1)) && !charging)
 		{
 			if(fireMode == 0)
 			{
@@ -184,7 +185,7 @@ public class PlayerScript : Character
 			}
 		}
 	}
-
+	
 	//Draws the current HP bar and Energy bar
 	void OnGUI()
 	{
@@ -192,7 +193,7 @@ public class PlayerScript : Character
 		//setting skins to default
 		GUI.skin.button.normal.background = GUI.skin.GetStyle("Box").normal.background;
 		GUI.skin.button.hover.background = GUI.skin.GetStyle("Box").normal.background;
-
+		
 		if ( this.health < (this.healthMax/2))
 		{
 			GUI.DrawTexture(new Rect(0, 0, Screen.width/2, Screen.height/4), healthBarRed, ScaleMode.ScaleToFit, true, 0f);
@@ -205,9 +206,9 @@ public class PlayerScript : Character
 		GUI.Button(new Rect(300, 20, Screen.width/4/(healthMax/health),20), "HP: " + (int)health + "/" + healthMax);
 		GUI.color = Color.yellow;
 		GUI.Button(new Rect(300, 40, Screen.width/4/(energyMax/energy),20), "EN: " + (int)energy + "/" + (int)energyMax);
-
+		
 	}
-
+	
 	public void changeKeysMethod()
 	{
 		if(mac)
@@ -230,17 +231,17 @@ public class PlayerScript : Character
 		PlayerScript.jump = jump1;
 		PlayerScript.jetPack = jetpack1;
 		PlayerScript.gravityShape = gravityShape1;
-
+		
 		Debug.Log("buttons set");
 	}
-
+	
 	public void GetInput(Vector3 directionL, Vector3 directionR, float triggers)
 	{
 		this.directionL = directionL;
 		this.directionR = directionR;
 		this.triggers = triggers;
 	}
-
+	
 	public override void Respawn()
 	{
 		if(spawnPoint != null)
@@ -251,16 +252,16 @@ public class PlayerScript : Character
 		{
 			transform.position = startPos;
 		}
-
+		
 		StartCoroutine(respawnChildren());
-				
+		
 	}
-
+	
 	public void EnergyOverflow(float energy)
 	{
 		//chargeFull = true;
 	}
-
+	
 	IEnumerator SphereCharger()
 	{
 		bool full = false;
@@ -278,18 +279,18 @@ public class PlayerScript : Character
 		gravityClip[clipIter].SendMessage("SetAffectPlayer", false);
 		gravityClip[clipIter].SendMessage("SetAffectEnemies", true);
 		gravityClip[clipIter].SendMessage("SetAffectOther", true);
-
+		
 		//set the gravity ball to be the right kind of sticky
 		gravityClip[clipIter].SendMessage("SetIsSticky", isSticky);
 		
-
+		
 		float pitch = gunSource.pitch;
 		gunSource.clip = gunCharge;
 		gunSource.ignoreListenerVolume = true;
 		gunSource.volume = 0.1f;
 		gunSource.loop = true;
 		gunSource.Play();
-
+		
 		do
 		{
 			//set it's position to the right place
@@ -300,10 +301,10 @@ public class PlayerScript : Character
 			{
 				sphereEnergy += amount;
 				energy -= amount;
-				if(triggers < 0) amount *= -1;
+				if(triggers < 0 || Input.GetMouseButton(1)) amount *= -1;
 				gravityClip[clipIter].SendMessage("Charge", amount);
 			}
-
+			
 			if(sphereEnergy > GravityScript.maxEnergy)
 			{
 				energy += sphereEnergy - GravityScript.maxEnergy;
@@ -322,63 +323,63 @@ public class PlayerScript : Character
 			{
 				gunSource.pitch = pitch + pitch * sphereEnergy/GravityScript.maxEnergy;
 			}
-
+			
 			yield return null;
-
-			if(triggers == 0)
+			
+			if(triggers == 0 && !Input.GetMouseButton(0) && !Input.GetMouseButton(1))
 			{
 				charging = false;
 			}
 		}
 		while(charging);
-
+		
 		//tell the gravity ball it's not being charged anymore
 		gravityClip[clipIter].SendMessage("SetIsCharging", false);
 		gravityClip[clipIter].SendMessage("SetAffectPlayer", true);
 		gravityClip[clipIter].SendMessage("Fire", directionR);
-
+		
 		gunSource.Stop();
 		gunSource.pitch = pitch;
 		gunSource.PlayOneShot(gunFire, 1.0f);
 	}
-
+	
 	IEnumerator ConeCharger()
 	{
 		float coneEnergy = 0;
 		charging = true;
 		bool full = false;
-
-
+		
+		
 		float pitch = gunSource.pitch;
 		gunSource.clip = gunCharge;
 		gunSource.ignoreListenerVolume = true;
 		gunSource.volume = 0.1f;
 		gunSource.loop = true;
 		gunSource.Play();
-
+		
 		gravityCone.SetActive(false);
 		gravityCone.SetActive(true);
 		gravityConeScript.affectPlayer = false;
 		gravityConeScript.affectEnemies =  true;
 		gravityConeScript.affectOther =  true;
-
+		
 		do
 		{
 			//Moves the gravity cone so that it follows the player and faces the right direction
 			gravityCone.transform.position = transform.position + directionR.normalized * (1 + projectileOffset);
 			gravityCone.transform.up = directionR.normalized;
-
+			
 			if(energy >= chargeRate * Time.deltaTime)
 			{
 				energy -= chargeRate * Time.deltaTime;
 				coneEnergy += chargeRate * Time.deltaTime;
 			}
-
-			if(triggers == 0)
+			
+			if(triggers == 0 && !Input.GetMouseButton(0) && !Input.GetMouseButton(1))
 			{
 				charging = false;
 			}
-
+			
 			if(coneEnergy > GravityScript.maxEnergy)
 			{
 				energy += coneEnergy - GravityScript.maxEnergy;
@@ -397,21 +398,21 @@ public class PlayerScript : Character
 			{
 				gunSource.pitch = pitch + pitch * coneEnergy/GravityScript.maxEnergy;
 			}
-
+			
 			gravityConeScript.ChargingEffect(coneEnergy);
-
+			
 			yield return null;
 		} 
 		while(charging);
-
+		
 		gunSource.Stop();
 		gunSource.pitch = pitch;
 		gunSource.PlayOneShot(gunFire, 1.0f);
-
+		
 		gravityConeScript.ChargingEffect(-1);
 		gravityConeScript.Charge(coneEnergy);
 	}
-
+	
 	IEnumerator respawnChildren()
 	{
 		yield return new WaitForSeconds(2);

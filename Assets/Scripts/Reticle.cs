@@ -21,6 +21,10 @@ public class Reticle : MonoBehaviour {
 	{
 		transform.position = Vector3.Lerp(transform.position, player.transform.position + new Vector3(direction.x * distance, direction.y * distance, 0), Time.deltaTime * smoothiness);
 		transform.up = transform.position - player.transform.position;
+
+		//Makes the reticle invisible if it's right on top of the player.
+		this.renderer.enabled = ((transform.position - player.transform.position).magnitude >= 0.02);
+
 	}
 	
 	void OnEnable()

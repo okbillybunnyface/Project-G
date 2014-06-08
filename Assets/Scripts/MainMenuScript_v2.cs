@@ -58,6 +58,7 @@ public class MainMenuScript_v2 : MonoBehaviour {
 			switch(count)
 			{
 			case 0:
+				Screen.showCursor = false;
 				Application.LoadLevel(1);
 				break;
 			case 1:
@@ -112,6 +113,7 @@ public class MainMenuScript_v2 : MonoBehaviour {
 			GUI.skin.button.hover.background = playButtonWhite;
 			if (GUI.Button(playRect, ""))
 			{
+				Screen.showCursor = false;
 				Application.LoadLevel(1);
 				buttonClicked1 = !buttonClicked1;
 			}

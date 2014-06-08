@@ -56,19 +56,21 @@ public class CameraScript : MonoBehaviour {
 
 
 		//-- This pauses the game
-		if ((Input.GetKeyDown(pauseButton) || (Input.GetKeyDown(KeyCode.JoystickButton9))) && paused == false)
+		if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(pauseButton) || (Input.GetKeyDown(KeyCode.JoystickButton9))) && paused == false)
 		{
 			//PauseGUI.SetActive(true);
 			//PauseGUI.text = "Game Paused";
 			paused = true;
+			Screen.showCursor = true;
 			Time.timeScale = 0;
 
 		}
-		else if ((Input.GetKeyDown(pauseButton) || (Input.GetKeyDown(KeyCode.JoystickButton9))) && paused == true)
+		else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(pauseButton) || (Input.GetKeyDown(KeyCode.JoystickButton9))) && paused == true)
 		{
 			//PauseGUI.SetActive(false);
 			//PauseGUI.text = "";
 			paused = false;
+			Screen.showCursor = false;
 			Time.timeScale = 1;
 		}
 	}

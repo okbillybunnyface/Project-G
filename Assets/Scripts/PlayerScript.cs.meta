@@ -2,7 +2,19 @@ fileFormatVersion: 2
 guid: 538d5c90fb92d3b4c9f3011517e489c6
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - probeEnd: {instanceID: 0}
+  - bloodParticles: {instanceID: 0}
+  - death: {fileID: 8300000, guid: 810976f2a64bc4f498c0a58128efe949, type: 3}
+  - jetpackParticles: {instanceID: 0}
+  - gunCharge: {instanceID: 0}
+  - gunFull: {instanceID: 0}
+  - gunFire: {instanceID: 0}
+  - gunSource: {instanceID: 0}
+  - gravityCone: {instanceID: 0}
+  - gravityConeScript: {instanceID: 0}
+  - healthBarGreen: {instanceID: 0}
+  - healthBarRed: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
