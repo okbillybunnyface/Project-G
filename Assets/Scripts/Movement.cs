@@ -83,7 +83,7 @@ public class Movement : MonoBehaviour {
 	//Makes the character jump relative to the characters current rotation.
 	public void Jump(Vector3 direction)
 	{
-		if(!jumping)
+		if(!jumping && Mathf.Abs(Vector3.Dot(rigidbody.velocity, transform.up)) < 0.02)
 		{
 			JumpPrep();
 			gameObject.layer = originalLayer + 1;
@@ -114,16 +114,22 @@ public class Movement : MonoBehaviour {
 
 		else if(!jumping)
 		{
+
 			//groundAngle is the angle between the normal vector to ground and the transform.up vector
 			float maxVelocity = Mathf.Cos(groundAngle * Mathf.PI / 180) * moveSpeed;
-			//groundTagent is the vector parallel to the ground
+
+			//groundTangent is the vector parallel to the ground
+
 			Vector3 force = 100 * delay * groundTangent * moveAccel * (Vector3.Dot(input, groundTangent) - Vector3.Dot(groundTangent, rigidbody.velocity) / maxVelocity);
 			rigidbody.AddForce(force, ForceMode.Acceleration);
 
+
 			Debug.DrawRay(this.transform.position, force / 4, Color.blue);
+
 		} 
 		else
 		{
+
 			Vector3 force = 100 * delay * transform.right * jumpingAccel * Vector3.Dot(input, transform.right);
 			if(rigidbody.velocity.sqrMagnitude < moveSpeed * moveSpeed || Vector3.Dot(rigidbody.velocity, force) < 0)
 			{
@@ -143,7 +149,7 @@ public class Movement : MonoBehaviour {
 	}
 
 
-	protected IEnumerator Jumping(Vector3 direction, float force)
+	protected IEnumerator Jumping(Vector3 direction, float speed)
 	{
 		if(direction.sqrMagnitude > 1)
 		{
@@ -159,7 +165,7 @@ public class Movement : MonoBehaviour {
 		{
 			direction = Vector3.RotateTowards(direction, transform.up, (5 * angle / 6) * Mathf.PI / 180, 0.0f);
 		}
-		rigidbody.AddForce(direction * force, ForceMode.Impulse);
+		rigidbody.AddForce(direction * speed, ForceMode.VelocityChange);
 
 		while(jumping)
 		{
