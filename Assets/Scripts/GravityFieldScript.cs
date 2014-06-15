@@ -11,7 +11,7 @@ public class GravityFieldScript : GravityScript {
 	void Start()
 	{
 		box = (BoxCollider)this.transform.collider;
-		root = transform.position - transform.up * box.size.y / 2;
+		root = transform.position - transform.up * box.size.y / 2 * box.transform.localScale.y;
 	}
 
 	// Update is called once per frame
@@ -23,8 +23,11 @@ public class GravityFieldScript : GravityScript {
 	public override void FixedUpdate()
 	{
 		base.FixedUpdate();
+		/*
+		 * I'm not sure why I put this code here, so I'm commenting it out for now. Uncomment if shenanigans.
 		box = (BoxCollider)this.transform.collider;
 		root = transform.position - transform.up * box.size.y / 2 * box.transform.localScale.y;
+		*/
 	}
 
 	void OnTriggerEnter(Collider collision)
@@ -37,12 +40,10 @@ public class GravityFieldScript : GravityScript {
 		collision.gameObject.rigidbody.useGravity = true;
 	}
 
-	void OnTriggerStay(Collider collision)
+	public override void OnTriggerStay(Collider collision)
 	{
 		collision.gameObject.rigidbody.useGravity = false;
-		Vector3 direction = (root - collision.transform.position);
-		direction = Vector3.Dot(transform.up, direction) * transform.up;
-		ApplyGravity(collision.gameObject, direction + direction.normalized * 5);
+		base.OnTriggerStay(collision);
 	}
 
 	public override void ParticleUpdate()
@@ -50,13 +51,10 @@ public class GravityFieldScript : GravityScript {
 		particles.startLifetime = this.transform.lossyScale.y / 20;
 	}
 
-	public override Collider[] GetSatellites()
+	public override Vector3 GetDirection(Collider satellite)
 	{
-		return null;
-	}
-	
-	public override Vector3[] GetDirections(Collider[] satellites)
-	{
-		return null;
+		Vector3 direction = (root - satellite.transform.position);
+		direction = Vector3.Dot(transform.up, direction) * transform.up;
+		return direction;
 	}
 }

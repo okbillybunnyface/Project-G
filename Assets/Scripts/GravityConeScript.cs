@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(SphereCollider))]
 public class GravityConeScript : GravityScript {
 
 	//Angle of cone in degrees.
@@ -30,51 +31,33 @@ public class GravityConeScript : GravityScript {
 	{
 		base.FixedUpdate();
 
-		Collider[] satellites = GetSatellites();
-		Vector3[] directions = GetDirections(satellites);
-
 		energy -= energy * dissipationRate * Time.deltaTime;
+	}
 
-		for(int s = 0; s < satellites.Length; s++)
+	public override void OnTriggerStay(Collider satellite)
+	{
+		Vector3 direction = GetDirection(satellite);
+		if(Affect(satellite.gameObject))
 		{
-			ApplyGravity(satellites[s].gameObject, -directions[s] * anti);
-			satellites[s].gameObject.SendMessage("Damage", 1.5 * energy * Time.deltaTime, SendMessageOptions.DontRequireReceiver);
+			ApplyGravity(satellite.gameObject, direction + direction.normalized * 5);
+			satellite.gameObject.SendMessage("Damage", 1.5 * energy * Time.deltaTime, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
-	public override Vector3[] GetDirections(Collider[] satellites)
+	public override Vector3 GetDirection(Collider satellite)
 	{
-		Vector3[] output = new Vector3[satellites.Length];
-		for(int s = 0; s < satellites.Length; s++)
-		{
-			output[s] = this.transform.position - satellites[s].transform.position;
-		}
-
-		return output;
+		return this.transform.position - satellite.transform.position;
 	}
 
-	public override Collider[] GetSatellites()
+	public override bool Affect (GameObject satellite)
 	{
-		Collider[] tempA = Physics.OverlapSphere(transform.position, radius);
-		Collider[] tempB = new Collider[tempA.Length];
-		Vector3 toTarget;
-		int count = 0;
-		for(int s = 0; s < tempA.Length; s++)
+		Vector3 toTarget = satellite.transform.position - this.transform.position;
+		if(Vector3.Angle(transform.up, toTarget) < sweepAngle / 2)
 		{
-			toTarget = tempA[s].transform.position - this.transform.position;
-			if(Vector3.Angle(transform.up, toTarget) < sweepAngle / 2)
-			{
-				tempB[count] = tempA[s];
-				count++;
-			}
-		}
-		Collider[] output = new Collider[count];
-		for(int s = 0; s < count; s++)
-		{
-			output[s] = tempB[s];
+			return base.Affect(satellite);
 		}
 
-		return output;
+		return false;
 	}
 
 	public override void ParticleUpdate()

@@ -64,26 +64,25 @@ public abstract class GravityScript : MonoBehaviour {
 		}
 	}
 
+	public virtual void OnTriggerStay(Collider satellite)
+	{
+		Vector3 direction = GetDirection(satellite);
+		if(Affect(satellite.gameObject))
+		{
+			ApplyGravity(satellite.gameObject, direction + direction.normalized * 0.5f);
+		}
+	}
+
 	//Checks to see whether the object is affected or not
 	public virtual bool Affect(GameObject satellite)
 	{
-		if(satellite.gameObject.Equals(this.gameObject))
+		if(satellite.gameObject.tag == "Enemy" && affectEnemies)
 		{
-			return false;
+			return true;
 		}
-		else if(satellite.gameObject.tag == "Enemy")
+		else if(satellite.gameObject.tag == "Player" && affectPlayer)
 		{
-			if(affectEnemies)
-			{
-				return true;
-			}
-		}
-		else if(satellite.gameObject.tag == "Player")
-		{
-			if(affectPlayer)
-			{
-				return true;
-			}
+			return true;
 		}
 		else if(affectOther)
 		{
@@ -93,13 +92,10 @@ public abstract class GravityScript : MonoBehaviour {
 		return false;
 	}
 
-	//Applies the proper gravitational force to all the parameter satellites
+	//Applies the proper gravitational force to the parameter satellite
 	protected void ApplyGravity(GameObject satellite, Vector3 direction)
 	{
-		//Get objects in the area of effect:
-
-			
-		if(Affect(satellite.gameObject) && satellite.rigidbody != null)
+		if(satellite.rigidbody != null)
 		{
 			float forceMag = 100 * intensity * energy  * Time.fixedDeltaTime / direction.sqrMagnitude;
 			if(anti * forceMag > maxForce) forceMag = maxForce * anti;
@@ -114,7 +110,6 @@ public abstract class GravityScript : MonoBehaviour {
 			Debug.DrawLine(transform.position, satellite.transform.position, Color.magenta);
 			Debug.DrawRay(satellite.transform.position, force / 5, Color.cyan);
 		}
-
 	}
 
 	//Gives the round energy
@@ -156,7 +151,5 @@ public abstract class GravityScript : MonoBehaviour {
 
 	public abstract void ParticleUpdate();
 
-	public abstract Collider[] GetSatellites();
-
-	public abstract Vector3[] GetDirections(Collider[] satellites);
+	public abstract Vector3 GetDirection(Collider satellite);
 }
