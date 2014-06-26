@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: de3b1c5723f96cc44be0fe6392dfc004
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - probeEnd: {instanceID: 0}
+  - bloodParticles: {instanceID: 0}
+  - death: {fileID: 8300000, guid: 810976f2a64bc4f498c0a58128efe949, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
