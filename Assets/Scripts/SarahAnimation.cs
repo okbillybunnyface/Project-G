@@ -43,13 +43,13 @@ public class SarahAnimation : MonoBehaviour {
 			if (facingRight == false)
 			{
 				//transform.eulerAngles = new Vector2 (0, 180); //flips jumping sprite
-				anim.SetTrigger("sarahJumpL");
+				//anim.SetTrigger("sarahJumpL");
 				return;
 			}
 			else// if (facingRight == true)
 			{
 				//transform.eulerAngles = new Vector2 (0,0);
-				anim.SetTrigger("sarahJump");
+				//anim.SetTrigger("sarahJump");
 				return;
 			}
 				

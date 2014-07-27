@@ -7,7 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 0
     path: Assets/Scenes/Sami Scenes/MainMenu_V2.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Sami Scenes/MainMenu_V3.unity
   - enabled: 0
     path: Assets/Scenes/Sami Scenes/PlatformTestBed.unity
@@ -19,5 +19,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Caroline Scenes/LoopeyTest.unity
   - enabled: 0
     path: Assets/Scenes/Caroline Scenes/Orbitz.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Caroline Scenes/ProjectionTestBed.unity
