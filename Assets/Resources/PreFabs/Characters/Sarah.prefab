@@ -78,7 +78,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400008}
   - 136: {fileID: 13600000}
-  - 54: {fileID: 5400000}
   - 114: {fileID: 11400010}
   - 114: {fileID: 11400006}
   - 114: {fileID: 11400008}
@@ -92,6 +91,7 @@ GameObject:
   - 82: {fileID: 8200000}
   - 82: {fileID: 8200010}
   - 82: {fileID: 8200012}
+  - 54: {fileID: 5400000}
   m_Layer: 8
   m_Name: Sarah
   m_TagString: Player
@@ -192,7 +192,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.72355366, y: 9.15224171, z: 0}
+  m_LocalPosition: {x: 3.3180685, y: 17.1966114, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -209,7 +209,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5999999, z: 0}
+  m_LocalPosition: {x: 0, y: -2.67407894, z: 0}
   m_LocalScale: {x: .706805944, y: .706807554, z: 1}
   m_Children: []
   m_Father: {fileID: 400008}
@@ -825,8 +825,8 @@ MonoBehaviour:
   projectionBase: {fileID: 100000, guid: afc33ea21fbfce04c89c32bd9bd17e6c, type: 2}
   gravityConeScript: {fileID: 11400000}
   mac: 0
-  healthBarGreen: {fileID: 2800000, guid: 5d220d7b5403a48a5b88cc674ff0be71, type: 3}
-  healthBarRed: {fileID: 2800000, guid: 7033dc703345b44f0b07572a33dd81b7, type: 3}
+  healthBarGreen: {fileID: 2800000, guid: c8d0166a5006c45e1b1cdc5c7307cfa0, type: 3}
+  healthBarRed: {fileID: 2800000, guid: 796d07a8560fe4582820dfcef8e72728, type: 3}
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5255,7 +5255,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 2161828107
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cda4162b09dfa4f968d14c0ade29398e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 413008f948eb748dbbc0128709443c99, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21200002
 SpriteRenderer:
