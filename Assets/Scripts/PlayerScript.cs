@@ -6,7 +6,7 @@ public class PlayerScript : Character
 	//Events
 	static KeyCode jump = KeyCode.JoystickButton0, jetPack = KeyCode.JoystickButton5, 
 	stickyToggle = KeyCode.JoystickButton1, gravityShape = KeyCode.JoystickButton3,
-	chargeJump = KeyCode.JoystickButton2;
+	chargeJump = KeyCode.JoystickButton2, dash = KeyCode.Joystick1Button4;
 	public delegate void MyRoom(GameObject myRoom);
 	public static event MyRoom PlayerRoom;
 	private GameObject spawnPoint;
@@ -164,6 +164,11 @@ public class PlayerScript : Character
                 timeStop = false;
             }
 		}
+
+        if (Input.GetKeyDown(dash))
+        {
+            Dash(((Vector3.Dot(rigidbody.velocity, transform.right) > 0) ? transform.right : -transform.right), 10f);
+        }
 	}
 	
 	//Physics
@@ -250,6 +255,7 @@ public class PlayerScript : Character
 			ControlScript.mac = false;
 		}
 	}
+
 	public static void setKeys(KeyCode jump1, KeyCode jetpack1, KeyCode gravityShape1)
 	{
 		PlayerScript.jump = jump1;
@@ -285,6 +291,22 @@ public class PlayerScript : Character
 	{
 		//chargeFull = true;
 	}
+
+    public void Dash(Vector3 direction, float distance)
+    {
+        RaycastHit hit;
+        Physics.Raycast(transform.position, direction, out hit, distance, 9);
+
+        float tempSpeed = jetpackParticles.startSpeed;
+        float tempLife = jetpackParticles.startLifetime;
+        jetpackParticles.startLifetime = 0.5f;
+        jetpackParticles.startSpeed = 4f;
+        jetpackParticles.Emit(200);
+        transform.position = (hit.collider != null) ? hit.point : transform.position + direction * distance;
+        jetpackParticles.Emit(200);
+        jetpackParticles.startLifetime = tempLife;
+        jetpackParticles.startSpeed = tempSpeed;
+    }
 
 	//Jump prediction charge thingy
 	IEnumerator JumpCharger()
