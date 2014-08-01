@@ -92,6 +92,7 @@ GameObject:
   - 82: {fileID: 8200010}
   - 82: {fileID: 8200012}
   - 54: {fileID: 5400000}
+  - 96: {fileID: 9600000}
   m_Layer: 8
   m_Name: Sarah
   m_TagString: Player
@@ -702,6 +703,47 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_HasTransformHierarchy: 1
+--- !u!96 &9600000
+TrailRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Time: 5
+  m_StartWidth: 1
+  m_EndWidth: 1
+  m_Colors:
+    m_Color[0]:
+      serializedVersion: 2
+      rgba: 4294901760
+    m_Color[1]:
+      serializedVersion: 2
+      rgba: 3036623410
+    m_Color[2]:
+      serializedVersion: 2
+      rgba: 1694458980
+    m_Color[3]:
+      serializedVersion: 2
+      rgba: 855611030
+    m_Color[4]:
+      serializedVersion: 2
+      rgba: 16763080
+  m_MinVertexDistance: .100000001
+  m_Autodestruct: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1148,7 +1190,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     type: 4
-    radius: 1
+    radius: 2
     angle: 90
     length: 0
     boxX: 1

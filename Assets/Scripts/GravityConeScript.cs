@@ -34,13 +34,10 @@ public class GravityConeScript : GravityScript {
 		energy -= energy * dissipationRate * Time.deltaTime;
 	}
 
-	public override void OnTriggerStay(Collider satellite)
+	public override void Gravity(GameObject satellite)
 	{
-		if(Affect(satellite.gameObject))
-		{
-			ApplyGravity(satellite.gameObject);
-			satellite.gameObject.SendMessage("Damage", 1.5 * energy * Time.deltaTime, SendMessageOptions.DontRequireReceiver);
-		}
+		ApplyGravity(satellite.gameObject);
+		satellite.gameObject.SendMessage("Damage", 1.5 * energy * Time.deltaTime, SendMessageOptions.DontRequireReceiver);
 	}
 
 	public override Vector3 GetDirection(Vector3 position)

@@ -167,7 +167,7 @@ public class ProjectionNode : MonoBehaviour {
 			//If the first item is set to affect the projectee, add the acceleration it would apply
 			if(gravityList.GetCurrent().GetScript().Affect(projectee))
 			{
-				acceleration += gravityList.GetCurrent().GetScript().GetAcceleration(position);
+				acceleration += gravityList.GetCurrent().GetScript().GetAcceleration(position, timeStep);
 			}
 
 			//Repeat on all the remaining items
@@ -182,7 +182,7 @@ public class ProjectionNode : MonoBehaviour {
 
 				if(gravityList.GetCurrent().GetScript().Affect(projectee))
 				{
-					acceleration += gravityList.GetCurrent().GetScript().GetAcceleration(position);
+					acceleration += gravityList.GetCurrent().GetScript().GetAcceleration(position, timeStep);
 				}
 			}
 		}

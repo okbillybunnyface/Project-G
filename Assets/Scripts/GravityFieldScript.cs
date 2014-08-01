@@ -20,25 +20,26 @@ public class GravityFieldScript : GravityScript {
 		Debug.DrawLine(transform.position, root, Color.white);
 	}
 
-	void OnTriggerEnter(Collider collision)
+	public override void OnTriggerEnter(Collider satellite)
+	{
+        base.OnTriggerEnter(satellite);
+		satellite.gameObject.rigidbody.useGravity = false;
+	}
+
+	public override void OnTriggerExit(Collider satellite)
+	{
+        base.OnTriggerExit(satellite);
+		satellite.gameObject.rigidbody.useGravity = true;
+	}
+
+	public void OnTriggerStay(Collider collision)
 	{
 		collision.gameObject.rigidbody.useGravity = false;
 	}
 
-	void OnTriggerExit(Collider collision)
+	public override Vector3 GetAcceleration (Vector3 position, float time)
 	{
-		collision.gameObject.rigidbody.useGravity = true;
-	}
-
-	public override void OnTriggerStay(Collider collision)
-	{
-		collision.gameObject.rigidbody.useGravity = false;
-		base.OnTriggerStay(collision);
-	}
-
-	public override Vector3 GetAcceleration (Vector3 position)
-	{
-		return base.GetAcceleration (position);
+		return base.GetAcceleration (position, time);
 	}
 
 	public override void ParticleUpdate()

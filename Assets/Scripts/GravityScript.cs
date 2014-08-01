@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 
 public abstract class GravityScript : MonoBehaviour {
@@ -19,9 +20,13 @@ public abstract class GravityScript : MonoBehaviour {
 	protected GameObject parent;
 	protected float energy;
 	protected int anti = 1;
+    protected List<GameObject> satellites;
 
 	public virtual void OnEnable()
 	{
+        satellites = new List<GameObject>();
+        satellites.Clear();
+        StartCoroutine(GravityUpdate());
 		energy = initialEnergy;
 		isCharging = true;
 	}
@@ -64,13 +69,15 @@ public abstract class GravityScript : MonoBehaviour {
 		}
 	}
 
-	public virtual void OnTriggerStay(Collider satellite)
-	{
-		if(Affect(satellite.gameObject) && Time.timeScale == 1)
-		{
-			ApplyGravity(satellite.gameObject);
-		}
-	}
+    public virtual void OnTriggerEnter(Collider satellite)
+    {
+        satellites.Add(satellite.gameObject);
+    }
+
+    public virtual void OnTriggerExit(Collider satellite)
+    {
+        satellites.Remove(satellite.gameObject);
+    }
 
 	//Checks to see whether the object is affected or not
 	public virtual bool Affect(GameObject satellite)
@@ -98,7 +105,7 @@ public abstract class GravityScript : MonoBehaviour {
 		if(satellite.rigidbody != null)
 		{
 			//Get the amount of acceleration over the physics step
-			Vector3 acceleration = GetAcceleration(satellite.transform.position);
+			Vector3 acceleration = GetAcceleration(satellite.transform.position, Time.fixedDeltaTime);
 			
 			//Applies acceleration
 			satellite.rigidbody.AddForce(acceleration, ForceMode.Acceleration);
@@ -112,10 +119,10 @@ public abstract class GravityScript : MonoBehaviour {
 	}
 
 	//Returns the amount of acceleration for that position over the specified amount of time.
-	public virtual Vector3 GetAcceleration(Vector3 position)
+	public virtual Vector3 GetAcceleration(Vector3 position, float time)
 	{
 		position = GetDirection(position);
-		float forceMag = intensity * energy / position.sqrMagnitude;
+        float forceMag = intensity * energy * time / 0.01f / position.sqrMagnitude;
 		if(anti * forceMag > maxForce)
 		{ 
 			forceMag = maxForce * anti;
@@ -163,5 +170,29 @@ public abstract class GravityScript : MonoBehaviour {
 
 	public abstract void ParticleUpdate();
 
+    public virtual void Gravity(GameObject satellite)
+    {
+        if (Affect(satellite) && Time.timeScale == 1)
+        {
+            ApplyGravity(satellite);
+        }
+    }
+
 	public abstract Vector3 GetDirection(Vector3 position);
+
+    IEnumerator GravityUpdate()
+    {
+        while (true)
+        {
+            foreach (GameObject satellite in satellites)
+            {
+                if (Affect(satellite) && Time.timeScale == 1)
+                {
+                    Gravity(satellite);
+                }
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+    }
 }
