@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Movement : MonoBehaviour {
 
-	public static float maxSpeed = 45;
+	public static float maxSpeed = 50;
 	public float moveSpeed = 5, moveAccel = 50, jumpForce = 2, jumpingAccel = 5;
 	protected float probeLength, groundAngle;
 	public bool jumping = false;

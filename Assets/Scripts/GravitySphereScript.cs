@@ -15,6 +15,12 @@ public class GravitySphereScript : GravityScript
 	public float effectFactor = 0.2f;
 	public bool isSticky = false;
 
+    public void Start()
+    {
+        gravParticles.renderer.sortingLayerName = "Effects";
+        antiParticles.renderer.sortingLayerName = "Effects";
+    }
+
 	//Called once per frame
 	public override void Update()
 	{

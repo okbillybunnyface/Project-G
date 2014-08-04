@@ -12,6 +12,8 @@ public abstract class GravityScript : MonoBehaviour {
 	public float initialEnergy = 0;
 	public static float maxEnergy = 100;
 	public static float minEnergy = 1;
+    public float damage = 10;
+    public float damageThresholdDistance = 1f;
 	public bool affectOther = false;
 	public bool affectPlayer = false;
 	public bool affectEnemies = false;
@@ -189,6 +191,12 @@ public abstract class GravityScript : MonoBehaviour {
                 if (Affect(satellite) && Time.timeScale == 1)
                 {
                     Gravity(satellite);
+                }
+
+                //if it's too close, damage it
+                if ((satellite.transform.position - transform.position).sqrMagnitude < damageThresholdDistance * damageThresholdDistance)
+                {
+                    satellite.SendMessage("Damage", damage * Time.fixedDeltaTime, SendMessageOptions.DontRequireReceiver);
                 }
             }
 

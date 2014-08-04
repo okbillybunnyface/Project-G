@@ -194,7 +194,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.3180685, y: 17.1966114, z: 0}
+  m_LocalPosition: {x: -18, y: 33.2799988, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -756,10 +756,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4b5efa07d425e4a85b875c4da33478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravParticles: {fileID: 0}
+  gravParticles: {fileID: 19800004}
   intensity: 180
   maxForce: 1000
   initialEnergy: 0
+  damage: 10
+  damageThresholdDistance: .100000001
   affectOther: 1
   affectPlayer: 0
   affectEnemies: 1
@@ -955,7 +957,7 @@ LineRenderer:
     m_EndColor:
       serializedVersion: 2
       rgba: 1694498815
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
