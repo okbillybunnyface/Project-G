@@ -323,22 +323,29 @@ public class PlayerScript : Character
 		projectionBase.transform.position = transform.position;//Set the projection Base to be the current position, and activate it
 		projectionBase.SetActive(true);
         projectionRenderer.enabled = true;
+        float originalEnergy = energy;
 
 		//While we have energy and the charge jump key is being held
-		while(timeStop && energy > 0)
+		while(timeStop)
 		{
-			//Subtract an amount of energy based on directionL
-			energy -= chargeJumpEnergy * (Time.realtimeSinceStartup - time) * directionL.magnitude;
-			//Add an amount of force based on directionL
-			force += chargeJumpRate * (Time.realtimeSinceStartup - time) * directionL;
+            //Calculate what our velocity change will be after this update
+            Vector3 tempForce = force + directionL * chargeJumpRate * (Time.realtimeSinceStartup - time);
+            //If the force is greater than the max, reset it to the max
+            if (tempForce.sqrMagnitude > jumpForce * jumpForce)
+            {
+                tempForce = tempForce.normalized * jumpForce;
+            }
+            //Calculate the cost
+            float tempCost = tempForce.magnitude * chargeJumpEnergy;
 
-			//Reset the force to the max jump force if it exceeds it, and refund the energy
-			if(force.sqrMagnitude > jumpForce * jumpForce)
-			{
-				energy += (force.magnitude - jumpForce) * chargeJumpEnergy / chargeJumpRate;
-				force = jumpForce * force.normalized;
-			}
+            //If the cost is less than how much our current energy, do it
+            if (tempCost < originalEnergy)
+            {
+                energy = originalEnergy - tempCost;
+                force = tempForce;
+            }
 
+            //Set velocity change arrow based on how much we're changing it
             projectionRenderer.SetPosition(1, force / 2);
 
 			//Inform the jump rope of our status
