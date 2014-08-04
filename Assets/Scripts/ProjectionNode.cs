@@ -23,6 +23,7 @@ public class ProjectionNode : MonoBehaviour {
 		line.SetWidth(0.1f, 0.1f);
 		line.enabled = false;//makes sure the line is off
 
+        line.renderer.sortingLayerName = "Effects";
 
 		//these need to be the same on upon initialization
 		position = transform.position;
@@ -221,18 +222,20 @@ public class ProjectionNode : MonoBehaviour {
 	//Calculates the color of the line
 	Color GetColor(Vector3 velocity)
 	{
-		float temp = 1020f * velocity.magnitude / Character.maxSpeed - 765f;
+		float temp;
 		if(velocity.magnitude / Character.maxSpeed >= 0.75f)
 		{
-			return new Color(255f, 255f - temp, 0f);
+            temp = 1020f * velocity.magnitude / Character.maxSpeed - 765f;
+			return new Color(255f - temp, 255f, 0f);
 		}
 		else if(velocity.magnitude / Character.maxSpeed >= 0.5f)
 		{
-			return new Color(255f + temp, 255f, 0f);
+            temp = 1020f * velocity.magnitude / Character.maxSpeed - 510f;
+			return new Color(255f, 255f - temp, 0f);
 		}
 		else
 		{
-			return new Color(0f, 255f, 0f);
+			return new Color(255f, 0f, 0f);
 		}
 	}
 

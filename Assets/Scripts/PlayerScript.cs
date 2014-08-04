@@ -331,9 +331,9 @@ public class PlayerScript : Character
             //Calculate what our velocity change will be after this update
             Vector3 tempForce = force + directionL * chargeJumpRate * (Time.realtimeSinceStartup - time);
             //If the force is greater than the max, reset it to the max
-            if (tempForce.sqrMagnitude > jumpForce * jumpForce)
+            if (tempForce.sqrMagnitude > (jumpForce/2) * (jumpForce/2))
             {
-                tempForce = tempForce.normalized * jumpForce;
+                tempForce = tempForce.normalized * jumpForce / 2;
             }
             //Calculate the cost
             float tempCost = tempForce.magnitude * chargeJumpEnergy;
@@ -347,7 +347,7 @@ public class PlayerScript : Character
 
             //Set velocity change arrow based on how much we're changing it
             projectionRenderer.SetPosition(0, transform.position);
-            projectionRenderer.SetPosition(1, transform.position + force / 2);
+            projectionRenderer.SetPosition(1, transform.position + force * 0.66f);
 
 			//Inform the jump rope of our status
 			projectionScript.Project(transform.position, force + rigidbody.velocity, useGravity);

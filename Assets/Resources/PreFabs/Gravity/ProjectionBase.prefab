@@ -39,7 +39,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64a24b6a47d7ca4fbb88a6d14850853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodes: 150
+  nodes: 100
   physicsTimeStep: .00999999978
   cascadeDelay: .00999999978
   updateDelay: .25
