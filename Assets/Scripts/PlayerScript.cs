@@ -241,27 +241,30 @@ public class PlayerScript : Character
 	
 	public void changeKeysMethod()
 	{
+
 		if(mac)
-		{
-			PlayerScript.setKeys(KeyCode.JoystickButton16, KeyCode.JoystickButton14, KeyCode.JoystickButton19);
+		{						// Jump, Jetpack, sticky, GravityShape, chargeJump, dash
+			PlayerScript.setKeys(KeyCode.JoystickButton16, KeyCode.JoystickButton14, KeyCode.JoystickButton19, KeyCode.JoystickButton18, KeyCode.JoystickButton13);
 			SoundScript.setSoundKeys(KeyCode.JoystickButton16, KeyCode.JoystickButton14);
 			ControlScript.mac = true;
 			SoundScript.mac = true;
 		}
 		else
-		{
-			PlayerScript.setKeys(KeyCode.JoystickButton0, KeyCode.JoystickButton5, KeyCode.JoystickButton3);
+		{							// Jump, Jetpack, sticky, GravityShape, chargeJump, dash
+			PlayerScript.setKeys(KeyCode.JoystickButton0, KeyCode.JoystickButton5, KeyCode.JoystickButton3, KeyCode.JoystickButton2, KeyCode.JoystickButton4);
 			SoundScript.setSoundKeys(KeyCode.JoystickButton0, KeyCode.JoystickButton5);
 			ControlScript.mac = false;
 			ControlScript.mac = false;
 		}
 	}
 
-	public static void setKeys(KeyCode jump1, KeyCode jetpack1, KeyCode gravityShape1)
+	public static void setKeys(KeyCode jump1, KeyCode jetpack1, KeyCode gravityShape1, KeyCode chargeJump1, KeyCode dash1)
 	{
 		PlayerScript.jump = jump1;
 		PlayerScript.jetPack = jetpack1;
 		PlayerScript.gravityShape = gravityShape1;
+		PlayerScript.chargeJump = chargeJump1;
+		PlayerScript.dash = dash1;
 		
 		Debug.Log("buttons set");
 	}

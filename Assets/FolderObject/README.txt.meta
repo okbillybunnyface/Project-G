@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 13339e51d56920b49b037e2330c83361
+labels:
+- folder
+- collection
+- group
+- hierarchy
+- tool
+- extension
+- editor
+- lock
+- hide
+- children
+- gameobjects
+- objectgroup
+- objects
+- object
+- layers
+- flash
+- photoshop
+TextScriptImporter:
+  userData: 

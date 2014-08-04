@@ -141,7 +141,7 @@ public class MainMenuScript_v2 : MonoBehaviour {
 			GUI.skin.button.hover.background = macCon2;
 			if(GUI.Button(macControls, ""))
 			{
-				PlayerScript.setKeys(KeyCode.JoystickButton16, KeyCode.JoystickButton14, KeyCode.JoystickButton19);
+				PlayerScript.setKeys(KeyCode.JoystickButton16, KeyCode.JoystickButton14, KeyCode.JoystickButton19, KeyCode.JoystickButton18, KeyCode.JoystickButton13);
 				SoundScript.setSoundKeys(KeyCode.JoystickButton16, KeyCode.JoystickButton14);
 				ControlScript.mac = true;
 				SoundScript.mac = true;
@@ -150,7 +150,7 @@ public class MainMenuScript_v2 : MonoBehaviour {
 			GUI.skin.button.hover.background = PCCon2;
 			if (GUI.Button(pcControls, ""))
 			{
-				PlayerScript.setKeys(KeyCode.JoystickButton0, KeyCode.JoystickButton5, KeyCode.JoystickButton3);
+				PlayerScript.setKeys(KeyCode.JoystickButton0, KeyCode.JoystickButton5, KeyCode.JoystickButton3, KeyCode.JoystickButton2, KeyCode.JoystickButton4);
 				SoundScript.setSoundKeys(KeyCode.JoystickButton0, KeyCode.JoystickButton5);
 				ControlScript.mac = false;
 				ControlScript.mac = false;

@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: d53ee2dfb3f378f418f9fda56f310a3e
+labels:
+- folder
+- collection
+- group
+- hierarchy
+- tool
+- extension
+- editor
+- lock
+- hide
+- children
+- gameobjects
+- objectgroup
+- objects
+- object
+- layers
+- flash
+- photoshop
+DefaultImporter:
+  userData: 
