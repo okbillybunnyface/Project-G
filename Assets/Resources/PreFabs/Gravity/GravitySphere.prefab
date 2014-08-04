@@ -60,7 +60,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 12.9341507, y: 28.3975487, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -118,9 +118,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravParticles: {fileID: 19800000}
-  intensity: 10
-  maxForce: 1000
-  initialEnergy: -1
+  intensity: 30
+  maxForce: 500
+  initialEnergy: 1
   affectOther: 1
   affectPlayer: 1
   affectEnemies: 1

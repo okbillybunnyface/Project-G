@@ -346,7 +346,8 @@ public class PlayerScript : Character
             }
 
             //Set velocity change arrow based on how much we're changing it
-            projectionRenderer.SetPosition(1, force / 2);
+            projectionRenderer.SetPosition(0, transform.position);
+            projectionRenderer.SetPosition(1, transform.position + force / 2);
 
 			//Inform the jump rope of our status
 			projectionScript.Project(transform.position, force + rigidbody.velocity, useGravity);
