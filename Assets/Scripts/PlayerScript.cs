@@ -27,6 +27,7 @@ public class PlayerScript : Character
 	public AudioSource gunSource;
 	public GameObject gravityCone;
 	public GameObject projectionBase;
+    public LineRenderer projectionRenderer;
 	public GravityConeScript gravityConeScript;
 	private ProjectionBase projectionScript;
 	private GameObject[] gravityClip = new GameObject[100];
@@ -321,6 +322,7 @@ public class PlayerScript : Character
 		float time = Time.realtimeSinceStartup;//To keep track of time independently of the time freeze
 		projectionBase.transform.position = transform.position;//Set the projection Base to be the current position, and activate it
 		projectionBase.SetActive(true);
+        projectionRenderer.enabled = true;
 
 		//While we have energy and the charge jump key is being held
 		while(timeStop && energy > 0)
@@ -337,6 +339,8 @@ public class PlayerScript : Character
 				force = jumpForce * force.normalized;
 			}
 
+            projectionRenderer.SetPosition(1, force / 2);
+
 			//Inform the jump rope of our status
 			projectionScript.Project(transform.position, force + rigidbody.velocity, useGravity);
 
@@ -347,7 +351,7 @@ public class PlayerScript : Character
 
 		//Turn the projection system off
 		projectionBase.SetActive(false);
-
+        projectionRenderer.enabled = false;
         //BAM. SUCH FORCE. WOW.
         rigidbody.AddForce(force, ForceMode.VelocityChange);
 
