@@ -44,7 +44,7 @@ public class GravityFieldScript : GravityScript {
 
 	public override void ParticleUpdate()
 	{
-		particles.startLifetime = this.transform.lossyScale.y / 20;
+		gravParticles.startLifetime = this.transform.lossyScale.y / 20;
 	}
 
 	public override Vector3 GetDirection(Vector3 position)

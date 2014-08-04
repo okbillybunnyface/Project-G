@@ -59,7 +59,7 @@ public class GravityConeScript : GravityScript {
 
 	public override void ParticleUpdate()
 	{
-		particles.Emit((int)(3 * energy * energy * Time.fixedDeltaTime));
+		gravParticles.Emit((int)(3 * energy * energy * Time.fixedDeltaTime));
 	}
 
 	public void ChargingEffect(float energy)

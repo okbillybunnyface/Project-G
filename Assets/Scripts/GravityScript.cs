@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public abstract class GravityScript : MonoBehaviour {
 
 	//Instance Variables
-	public ParticleSystem particles;
+	public ParticleSystem gravParticles;
 	public float intensity = 2500;
 	public float maxForce = 100;
 	public float initialEnergy = 0;

@@ -7,7 +7,9 @@ using System.Collections;
 public class GravitySphereScript : GravityScript 
 {	
 	//Instance variables
-	public GameObject effectSphere;
+    public ParticleSystem antiParticles;
+    public SpriteRenderer spriteRenderer;
+    public Sprite gravSprite, antiSprite;
 	public float dissipationRate = 0.5f;
 	public float effectFactor = 0.2f;
 	public bool isSticky = false;
@@ -57,18 +59,20 @@ public class GravitySphereScript : GravityScript
 	public override void ParticleUpdate()
 	{
 		float scale = energy * anti/ maxEnergy;
-		particles.startSpeed = 4 * scale * anti;
-		particles.startLifetime = 2;
-		particles.emissionRate = anti *  energy * effectFactor * effectFactor / 5;
+		gravParticles.startSpeed = 4 * scale * anti;
+		gravParticles.startLifetime = 2;
+		gravParticles.emissionRate = anti *  energy * effectFactor * effectFactor / 5;
 
 		
 		if(energy >= 0)
 		{
-			effectSphere.transform.localScale = new Vector3(-4, -4, 1f);
+            gravParticles.startColor = new Color(0f, 0f, 0f);
+            spriteRenderer.sprite = gravSprite;
 		}
 		else
 		{
-			effectSphere.transform.localScale = new Vector3(0.1f, 0.1f, 1f);
+            gravParticles.startColor = new Color(255f, 255f, 255f);
+            spriteRenderer.sprite = antiSprite;
 		}
 
 	}
