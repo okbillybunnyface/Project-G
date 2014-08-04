@@ -8,6 +8,7 @@ public class GravitySphereScript : GravityScript
 {	
 	//Instance variables
     public ParticleSystem antiParticles;
+    public GameObject gravObject, antiObject;
     public SpriteRenderer spriteRenderer;
     public Sprite gravSprite, antiSprite;
 	public float dissipationRate = 0.5f;
@@ -58,21 +59,23 @@ public class GravitySphereScript : GravityScript
 
 	public override void ParticleUpdate()
 	{
-		float scale = energy * anti/ maxEnergy;
-		gravParticles.startSpeed = 4 * scale * anti;
-		gravParticles.startLifetime = 2;
+		float scale = energy/ maxEnergy;
+		gravParticles.startSpeed = -8 * scale;
+        antiParticles.startSpeed = 8 * scale;
 		gravParticles.emissionRate = anti *  energy * effectFactor * effectFactor / 5;
 
 		
 		if(energy >= 0)
 		{
-            gravParticles.startColor = new Color(0f, 0f, 0f);
             spriteRenderer.sprite = gravSprite;
+            antiObject.SetActive(false);
+            gravObject.SetActive(true);
 		}
 		else
 		{
-            gravParticles.startColor = new Color(255f, 255f, 255f);
             spriteRenderer.sprite = antiSprite;
+            gravObject.SetActive(false);
+            antiObject.SetActive(true);
 		}
 
 	}
