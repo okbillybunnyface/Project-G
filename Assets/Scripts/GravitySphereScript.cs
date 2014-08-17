@@ -14,6 +14,7 @@ public class GravitySphereScript : GravityScript
 	public float dissipationRate = 0.5f;
 	public float effectFactor = 0.2f;
 	public bool isSticky = false;
+    public bool isStable = false;
 
     public void Start()
     {
@@ -28,8 +29,6 @@ public class GravitySphereScript : GravityScript
 		Debug.DrawRay(transform.position, -transform.right * transform.localScale.x, Color.red);
 		Debug.DrawRay(transform.position, transform.up * transform.localScale.y, Color.red);
 		Debug.DrawRay(transform.position, -transform.up * transform.localScale.y, Color.red);
-
-		ParticleUpdate();
 	}
 
 	//Physics updates
@@ -37,22 +36,26 @@ public class GravitySphereScript : GravityScript
 	{
 		base.FixedUpdate();
 
-		//Depletes the objects energy if it is not environmental or being charged
-		if(!isEnvironment && !isCharging)
-		{
-			energy -= energy * dissipationRate * Time.deltaTime;
-			//Makes the energy recharge if it's an environmental gravity source
-		} else if(energy * anti < maxEnergy)
-		{
-			energy += anti * maxEnergy * dissipationRate * Time.deltaTime;
-		}
+        if (isEnvironment)
+        {
+            if (!isStable && energy * anti < maxEnergy)
+            {
+                energy += anti * maxEnergy * dissipationRate * Time.deltaTime;
+            }
+        }
+        else if (!isCharging)
+        {
+            if (!isStable)
+            {
+                energy -= energy * dissipationRate * Time.deltaTime;
+            }
+        }
 
-		//Alters the gravity sphere's size based upon available energy.
-		float scale = energy * anti / maxEnergy;
-		this.transform.localScale = new Vector3(scale, scale, 1f);
+
+        ParticleUpdate();
 	}
 
-	void SetIsSticky(bool truthiness)
+	public void SetIsSticky(bool truthiness)
 	{
 		isSticky = truthiness;
 	}
@@ -70,6 +73,9 @@ public class GravitySphereScript : GravityScript
         antiParticles.startSpeed = 8 * scale;
 		gravParticles.emissionRate = anti *  energy * effectFactor * effectFactor / 5;
 
+        //Alters the gravity sphere's size based upon available energy.
+        scale *= anti;
+        this.transform.localScale = new Vector3(scale, scale, 1f);
 		
 		if(energy >= 0)
 		{
@@ -83,6 +89,22 @@ public class GravitySphereScript : GravityScript
             gravObject.SetActive(false);
             antiObject.SetActive(true);
 		}
-
 	}
+
+    public void StartDespawnTimer(float time)
+    {
+        StartCoroutine(Timer(time));
+    }
+
+    public void SetIsStable(bool truthiness)
+    {
+        isStable = truthiness;
+    }
+
+    IEnumerator Timer(float time)
+    {
+        isStable = true;
+        yield return new WaitForSeconds(time);
+        isStable = false;
+    }
 }

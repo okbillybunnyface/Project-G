@@ -5,15 +5,16 @@ using System.Collections;
 public class PlayerScript : Character
 {
 	//Events
-	static KeyCode jump = KeyCode.JoystickButton0, jetPack = KeyCode.JoystickButton5, 
-	stickyToggle = KeyCode.JoystickButton1, gravityShape = KeyCode.JoystickButton3,
-	chargeJump = KeyCode.JoystickButton2, dash = KeyCode.Joystick1Button4;
 	public delegate void MyRoom(GameObject myRoom);
 	public static event MyRoom PlayerRoom;
-	private GameObject spawnPoint;
+    public delegate void ShowProjection(bool truthiness);
+    public static event ShowProjection Show_Projection;
 	
 	//Instance variables
-	//public KeyCode moveUp, moveDown, moveLeft, moveRight, jumpKey;
+    static KeyCode jump = KeyCode.JoystickButton0, jetPack = KeyCode.JoystickButton5,
+    stickyToggle = KeyCode.JoystickButton1, gravityShape = KeyCode.JoystickButton3,
+    timeStopKey = KeyCode.JoystickButton2, dash = KeyCode.Joystick1Button4;
+
 	public bool useGravity = true;
 	public ParticleSystem jetpackParticles;
 	public float chargeRate = 5;
@@ -23,13 +24,18 @@ public class PlayerScript : Character
 	public float chargeJumpRate = 25;
 	public float projectileOffset = 0;
 	public float recoil = 10;
-	public AudioClip gunCharge, gunFull, gunFire;
-	public AudioSource gunSource;
 	public GameObject gravityCone;
+    public GameObject gravitySpherePrefab;
 	public GameObject projectionBase;
     public LineRenderer projectionRenderer;
-	public GravityConeScript gravityConeScript;
-	private ProjectionBase projectionScript;
+    public bool mac = false;
+    public Texture2D healthBarGreen, healthBarRed;
+
+    private GameObject gravitySphere;
+    private GravityConeScript gravityConeScript;
+    private GravitySphereScript gravitySphereScript;
+    private GameObject spawnPoint;
+	private Projector projectorScript;
 	private GameObject[] gravityClip = new GameObject[100];
 	private int fireMode = 1;// 0: Sphere, 1: Cone
 	private Vector3 directionL;
@@ -38,11 +44,6 @@ public class PlayerScript : Character
 	private int clipIter = 0;
 	private float triggers = 0;
 	private GameObject prevRoom, reticle;
-	public bool mac = false;
-	public Texture2D healthBarGreen, healthBarRed;
-	
-	//Animator anim;
-	
 	
 	// Use this for initialization
 	public override void Start ()
@@ -50,18 +51,27 @@ public class PlayerScript : Character
 		base.Start();
 		rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 		Screen.showCursor = false;
-		projectionBase = (GameObject)GameObject.Instantiate(projectionBase);
-		projectionScript = projectionBase.GetComponent<ProjectionBase>();
-		projectionScript.Initialize(this.gameObject);
 		//projectionBase.SetActive(false);
 		rigidbody.useGravity = useGravity;
+
+        projectorScript = this.GetComponent<Projector>();
+
+        if (gravitySphere == null) gravitySphere = (GameObject)GameObject.Instantiate(gravitySpherePrefab);
+        if (gravityConeScript == null) gravityConeScript = (GravityConeScript)gravityCone.GetComponent("GravityConeScript");
+        if (gravitySphereScript == null) gravitySphereScript = (GravitySphereScript)gravitySphere.GetComponent("GravitySphereScript");
+        gravitySphere.SetActive(true);
+        gravitySphereScript.affectEnemies = true;
+        gravitySphereScript.affectOther = true;
+        gravitySphereScript.affectPlayer = true;
+        gravitySphereScript.isStable = true;
+        gravitySphereScript.isEnvironment = false;
 	}
 	
 	//Called whenever the gameObject is enabled.
 	public override void OnEnable ()
 	{
 		base.OnEnable();
-		
+
 		ControlScript.controlCourier += GetInput;
 		spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint");
 	}
@@ -154,17 +164,10 @@ public class PlayerScript : Character
 			else Debug.Log("Gravity Mode Selection Error!");
 		}
 
-		if(Input.GetKeyDown(chargeJump) || Input.GetKeyDown(KeyCode.LeftControl))
+		if(Input.GetKeyDown(timeStopKey) || Input.GetKeyDown(KeyCode.LeftControl))
 		{
-            if(!timeStop)
-            {
-                timeStop = true;
-                StartCoroutine(JumpCharger());
-            }
-            else 
-            {
-                timeStop = false;
-            }
+            timeStop = !timeStop;
+            if(timeStop) StartCoroutine(TimeStop());
 		}
 
         if (Input.GetKeyDown(dash))
@@ -204,11 +207,11 @@ public class PlayerScript : Character
 		}
 		
 		
-		if((triggers != 0 || Input.GetMouseButton(0) || Input.GetMouseButton(1)) && !charging)
+		if((triggers != 0 || Input.GetMouseButton(0) || Input.GetMouseButton(1)) && !charging && !timeStop)
 		{
 			if(fireMode == 0)
 			{
-				StartCoroutine(SphereCharger());
+				StartCoroutine(SphereChargerOld());
 			}
 			else if(fireMode == 1)
 			{
@@ -264,7 +267,7 @@ public class PlayerScript : Character
 		PlayerScript.jump = jump1;
 		PlayerScript.jetPack = jetpack1;
 		PlayerScript.gravityShape = gravityShape1;
-		PlayerScript.chargeJump = chargeJump1;
+		PlayerScript.timeStopKey = chargeJump1;
 		PlayerScript.dash = dash1;
 		
 		Debug.Log("buttons set");
@@ -313,36 +316,71 @@ public class PlayerScript : Character
         jetpackParticles.startSpeed = tempSpeed;
     }
 
-	//Jump prediction charge thingy
-	IEnumerator JumpCharger()
+	//Coroutine that handles the jump during timestop mode
+	IEnumerator TimeStop()
 	{
 		Vector3 force = Vector3.zero;//Force for jump
+        gravitySphere.SetActive(true);
+        gravitySphere.SetActive(false);
+        gravitySphereScript.SetIsStable(true);
+        float sphereEnergy = 0;
+        float maxSphereDist = 30f;
+        float sphereMoveRate = 0.2f;
 		Time.timeScale = 0.0000001f;//Pauses time without pausing time.
 		Time.fixedDeltaTime = 0.01f * Time.timeScale;//Update fixedDeltatime based on timescale
 		float time = Time.realtimeSinceStartup;//To keep track of time independently of the time freeze
-		projectionBase.transform.position = transform.position;//Set the projection Base to be the current position, and activate it
-		projectionBase.SetActive(true);
+        Show_Projection(true);
         projectionRenderer.enabled = true;
         float originalEnergy = energy;
 
-		//While we have energy and the charge jump key is being held
+		//While timestop hasn't been toggled off
 		while(timeStop)
 		{
+            float deltaTime = Time.realtimeSinceStartup - time;
+
+            if (triggers != 0)
+            {
+                if (!gravitySphere.activeSelf)
+                {
+                    gravitySphere.transform.position = transform.position;
+                    gravitySphere.SetActive(true);
+                }
+            }
+
             //Calculate what our velocity change will be after this update
-            Vector3 tempForce = force + directionL * chargeJumpRate * (Time.realtimeSinceStartup - time);
+            Vector3 tempForce = force + directionL * chargeJumpRate * (deltaTime);
+            //Calculate what the gravity sphere's energy will be after this update
+            sphereEnergy = gravitySphereScript.GetEnergy() + chargeRate * deltaTime * triggers;
+
             //If the force is greater than the max, reset it to the max
             if (tempForce.sqrMagnitude > (jumpForce/2) * (jumpForce/2))
             {
                 tempForce = tempForce.normalized * jumpForce / 2;
             }
+
+            if (gravitySphere.activeSelf)
+            {
+                gravitySphere.transform.position += directionR * sphereMoveRate;
+                if ((gravitySphere.transform.position - transform.position).sqrMagnitude > maxSphereDist * maxSphereDist)
+                {
+                    gravitySphere.transform.position = transform.position + (gravitySphere.transform.position - transform.position).normalized * maxSphereDist;
+                }
+
+                gravitySphereScript.ParticleUpdate();
+            }
+
             //Calculate the cost
-            float tempCost = tempForce.magnitude * chargeJumpEnergy;
+            float tempCost = tempForce.magnitude * chargeJumpEnergy + sphereEnergy;
 
             //If the cost is less than how much our current energy, do it
             if (tempCost < originalEnergy)
             {
                 energy = originalEnergy - tempCost;
                 force = tempForce;
+                if (gravitySphere.activeSelf)
+                {
+                    gravitySphereScript.SetEnergy(sphereEnergy);
+                }
             }
 
             //Set velocity change arrow based on how much we're changing it
@@ -350,26 +388,37 @@ public class PlayerScript : Character
             projectionRenderer.SetPosition(1, transform.position + force * 0.66f);
 
 			//Inform the jump rope of our status
-			projectionScript.Project(transform.position, force + rigidbody.velocity, useGravity);
+            projectorScript.SetPosition(this.transform.position);
+            projectorScript.SetUseGravity(this.useGravity);
+            projectorScript.SetVelocity(force + this.rigidbody.velocity);
+
+            time = Time.realtimeSinceStartup;
 
 			yield return null;//Stop execution until after next frame
 		}
 
-		//At this point, the user has stopped holding down the jump projection key
-
 		//Turn the projection system off
-		projectionBase.SetActive(false);
+        Show_Projection(false);
         projectionRenderer.enabled = false;
         //BAM. SUCH FORCE. WOW.
         rigidbody.AddForce(force, ForceMode.VelocityChange);
 
+        if (gravitySphere.activeSelf)
+        {
+            gravitySphereScript.StartDespawnTimer(5f);
+        }
+
+        gravitySphereScript.SetIsCharging(false);
+        gravitySphereScript.gravParticles.Play();
+        gravitySphereScript.antiParticles.Play();
+
+
 		//Reset the time stuff to normal
 		Time.timeScale = 1;
 		Time.fixedDeltaTime = 0.01f * Time.timeScale;
-        timeStop = false;
 	}
 
-	IEnumerator SphereCharger()
+	IEnumerator SphereChargerOld()
 	{
 		bool full = false;
 		float sphereEnergy = 0;
@@ -390,13 +439,14 @@ public class PlayerScript : Character
 		//set the gravity ball to be the right kind of sticky
 		gravityClip[clipIter].SendMessage("SetIsSticky", isSticky);
 		
-		
+		/*
 		float pitch = gunSource.pitch;
 		gunSource.clip = gunCharge;
 		gunSource.ignoreListenerVolume = true;
 		gunSource.volume = 0.1f;
 		gunSource.loop = true;
 		gunSource.Play();
+         */
 		
 		do
 		{
@@ -419,16 +469,18 @@ public class PlayerScript : Character
 				if(!full)
 				{
 					full = true;
+                    /*
 					gunSource.Stop();
 					gunSource.clip = gunFull;
 					gunSource.volume = 0.8f;
 					gunSource.pitch = pitch;
 					gunSource.Play();
+                     */
 				}
 			}
 			else if(!full)
 			{
-				gunSource.pitch = pitch + pitch * sphereEnergy/GravityScript.maxEnergy;
+				//gunSource.pitch = pitch + pitch * sphereEnergy/GravityScript.maxEnergy;
 			}
 			
 			yield return null;
@@ -445,9 +497,11 @@ public class PlayerScript : Character
 		gravityClip[clipIter].SendMessage("SetAffectPlayer", true);
 		gravityClip[clipIter].SendMessage("Fire", directionR);
 		
+        /*
 		gunSource.Stop();
 		gunSource.pitch = pitch;
 		gunSource.PlayOneShot(gunFire, 1.0f);
+         */
 	}
 	
 	IEnumerator ConeCharger()
@@ -456,14 +510,15 @@ public class PlayerScript : Character
 		charging = true;
 		bool full = false;
 		
-		
+		/*
 		float pitch = gunSource.pitch;
 		gunSource.clip = gunCharge;
 		gunSource.ignoreListenerVolume = true;
 		gunSource.volume = 0.1f;
 		gunSource.loop = true;
 		gunSource.Play();
-		
+		*/
+
 		gravityCone.SetActive(false);
 		gravityCone.SetActive(true);
 		gravityConeScript.affectPlayer = false;
@@ -494,16 +549,18 @@ public class PlayerScript : Character
 				if(!full)
 				{
 					full = true;
+                    /*
 					gunSource.Stop();
 					gunSource.clip = gunFull;
 					gunSource.volume = 0.8f;
 					gunSource.pitch = pitch;
 					gunSource.Play();
+                     */
 				}
 			}
 			else if(!full)
 			{
-				gunSource.pitch = pitch + pitch * coneEnergy/GravityScript.maxEnergy;
+				//gunSource.pitch = pitch + pitch * coneEnergy/GravityScript.maxEnergy;
 			}
 			
 			gravityConeScript.ChargingEffect(coneEnergy);
@@ -512,10 +569,12 @@ public class PlayerScript : Character
 		} 
 		while(charging);
 		
+        /*
 		gunSource.Stop();
 		gunSource.pitch = pitch;
 		gunSource.PlayOneShot(gunFire, 1.0f);
-		
+		*/
+
 		gravityConeScript.ChargingEffect(-1);
 		gravityConeScript.Charge(coneEnergy);
 	}

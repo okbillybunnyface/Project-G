@@ -135,4 +135,10 @@ public class GravityList
 	{
 		current = first;
 	}
+
+    public void Clear()
+    {
+        current = null;
+        first = null;
+    }
 }
