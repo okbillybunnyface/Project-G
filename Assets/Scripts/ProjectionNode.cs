@@ -212,10 +212,13 @@ public class ProjectionNode : MonoBehaviour {
 		velocity = acceleration * timeStep + velocity;
 
 		//if the velocity ever exceeds the max specified by Movement, reset it to the max
-		if(velocity.sqrMagnitude > Movement.maxSpeed * Movement.maxSpeed)
-		{
-			velocity = velocity.normalized * Movement.maxSpeed;
-		}
+        if (projectee.tag == "Player" || projectee.tag == "Enemy")
+        {
+            if (velocity.sqrMagnitude > Movement.maxSpeed * Movement.maxSpeed)
+            {
+                velocity = velocity.normalized * Movement.maxSpeed;
+            }
+        }
 
 		return velocity;
 	}
