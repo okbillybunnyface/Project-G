@@ -9,9 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: ProjectionBase
-  m_TagString: Untagged
+  m_TagString: ProjectionNode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,7 +39,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64a24b6a47d7ca4fbb88a6d14850853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodes: 100
   physicsTimeStep: .00999999978
   cascadeDelay: .00999999978
   updateDelay: .25

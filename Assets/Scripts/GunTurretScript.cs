@@ -4,14 +4,15 @@ using System.Collections;
 public class GunTurretScript : MonoBehaviour {
 
 	// Use this for initialization
-	public GameObject gunTurret, bulletPrefab, gunSightEnd;
+	public GameObject gunTurret, bulletPrefab;
     public GameObject bulletSpawn;
 	private GameObject clone, player;
+    public float maxAngle = 60f;
+    public float rotationSpeed = 5f; 
 	public float bulletSpeed = 60f;
     public float range = 30;
     public float fireRate = 10f;
     private GameObject[] bullets;
-	private float rotationAngle = 1; 
 	private bool canFire = true, sighted = false;
     private float rate;
     private int bulletIter = 0;
@@ -71,18 +72,18 @@ public class GunTurretScript : MonoBehaviour {
 		else
 		{
 			float maxAngle = Vector3.Angle(-transform.up, (-1 * gunTurret.gameObject.transform.up));
-            if (maxAngle > 45.0f)
+            if (maxAngle > this.maxAngle)
             {
                 if (canSwitch)
                 {
-                    rotationAngle *= -1;
+                    rotationSpeed *= -1;
                     canSwitch = false;
                 }
             }
             else canSwitch = true;
-			
-			Debug.DrawLine(gunTurret.transform.position,gunSightEnd.transform.position, Color.green);
-			moveGunTurret(rotationAngle);
+
+            Debug.DrawRay(gunTurret.transform.position, -gunTurret.transform.up * range, Color.green);
+			moveGunTurret(rotationSpeed * Time.deltaTime);
 		}
 	}
 

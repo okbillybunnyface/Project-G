@@ -92,6 +92,10 @@ public abstract class GravityScript : MonoBehaviour {
 		{
 			return true;
 		}
+        else if (satellite.gameObject.tag == "ProjectionNode")
+        {
+            return false;
+        }
 		else if(affectOther)
 		{
 			return true;
@@ -197,11 +201,8 @@ public abstract class GravityScript : MonoBehaviour {
         {
             foreach (GameObject satellite in satellites)
             {
-                if (Affect(satellite) && Time.timeScale == 1)
-                {
-                    Gravity(satellite);
-                }
-
+                Gravity(satellite);
+                
                 //if it's too close, damage it
                 if ((satellite.transform.position - transform.position).sqrMagnitude < damageThresholdDistance * damageThresholdDistance)
                 {

@@ -10,6 +10,7 @@ TagManager:
   - GravitySphere
   - GravityCone
   - GravityField
+  - ProjectionNode
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   User Layer 15: RoomBounds
   User Layer 16: Gravity
   User Layer 17: ProjectionNode
-  User Layer 18: 
+  User Layer 18: Debris
   User Layer 19: 
   User Layer 20: 
   User Layer 21: 
