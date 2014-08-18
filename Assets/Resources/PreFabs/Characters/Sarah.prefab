@@ -91,7 +91,6 @@ GameObject:
   - 82: {fileID: 8200000}
   - 82: {fileID: 8200010}
   - 82: {fileID: 8200012}
-  - 96: {fileID: 9600000}
   - 54: {fileID: 5400000}
   - 120: {fileID: 12000000}
   - 114: {fileID: 11400014}
@@ -195,7 +194,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18, y: 33.2799988, z: 0}
+  m_LocalPosition: {x: -22.371294, y: 4.38087654, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -705,47 +704,6 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_HasTransformHierarchy: 1
---- !u!96 &9600000
-TrailRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_Time: 5
-  m_StartWidth: .100000001
-  m_EndWidth: .100000001
-  m_Colors:
-    m_Color[0]:
-      serializedVersion: 2
-      rgba: 4294901760
-    m_Color[1]:
-      serializedVersion: 2
-      rgba: 3036623410
-    m_Color[2]:
-      serializedVersion: 2
-      rgba: 1694458980
-    m_Color[3]:
-      serializedVersion: 2
-      rgba: 855611030
-    m_Color[4]:
-      serializedVersion: 2
-      rgba: 16763080
-  m_MinVertexDistance: .100000001
-  m_Autodestruct: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -860,7 +818,7 @@ MonoBehaviour:
   jetPackForce: 400
   jetPackDrain: 15
   chargeJumpEnergy: .75
-  chargeJumpRate: .100000001
+  chargeJumpRate: 1
   projectileOffset: 2
   recoil: 9
   gravityCone: {fileID: 100004}
@@ -933,7 +891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb46c348f155e714ebcabc92a7730796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectionBase: {fileID: 100000, guid: afc33ea21fbfce04c89c32bd9bd17e6c, type: 2}
   projectionNodes: 100
 --- !u!120 &12000000
 LineRenderer:

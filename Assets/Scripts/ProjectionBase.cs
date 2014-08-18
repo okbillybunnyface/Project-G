@@ -31,7 +31,7 @@ public class ProjectionBase : MonoBehaviour {
         nodeScript.ResetSources();
 
 		//I disabled this to show off the feature. Normally, this would make the line disappear as soon as projection ceases.
-		//initialNode.SetActive(false);
+		initialNode.SetActive(false);
 	}
 
 	//MUST BE CALLED IMMEDIATELY UPON INSTANTIATION!!!

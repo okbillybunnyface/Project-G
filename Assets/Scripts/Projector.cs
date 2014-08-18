@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Projector : MonoBehaviour 
 {
-    public GameObject projectionBase;
+    private GameObject projectionBase;
     public int projectionNodes = 0;
     private Vector3 velocity, position;
     private bool useGravity;
@@ -11,7 +11,7 @@ public class Projector : MonoBehaviour
 
     void Start()
     {
-        projectionBase = (GameObject)GameObject.Instantiate(projectionBase);
+        projectionBase = (GameObject)GameObject.Instantiate(Resources.Load<GameObject>("PreFabs/Gravity/ProjectionBase"));
         projectionScript = projectionBase.GetComponent<ProjectionBase>();
         projectionScript.Initialize(this.gameObject, projectionNodes);
     }
@@ -28,6 +28,9 @@ public class Projector : MonoBehaviour
 
     void ShowProjection(bool truthiness)
     {
+        position = transform.position;
+        velocity = rigidbody.velocity;
+        useGravity = rigidbody.useGravity;
         projectionBase.transform.position = this.transform.position;
         projectionBase.SetActive(truthiness);
         if (truthiness) StartCoroutine(ProjectionCycle());
@@ -45,7 +48,6 @@ public class Projector : MonoBehaviour
     public void SetPosition(Vector3 position)
     {
         this.position = position;
-        transform.position = position;
     }
 
     public void SetVelocity(Vector3 velocity)

@@ -5,16 +5,20 @@ public class GunTurretScript : MonoBehaviour {
 
 	// Use this for initialization
 	public GameObject gunTurret, bulletPrefab, gunSightEnd;
-	public GameObject LeftBulletSpawn, RightBulletSpawn, LeftBulletDirection, RightBulletDirection;
+    public GameObject bulletSpawn;
 	private GameObject clone, player;
 	public float bulletSpeed = 60f;
+    public float range = 30;
+    public float fireRate = 10f;
 	private float rotationAngle = 1; 
 	private bool canFire = true, sighted = false;
+    private float rate;
 
 
 	void Start () 
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
+        rate = 1 / fireRate;
 	}
 
 	// Update is called once per frame
@@ -33,7 +37,7 @@ public class GunTurretScript : MonoBehaviour {
 
 		RaycastHit castOut;
 
-		if(Physics.Linecast(gunTurret.transform.position, gunSightEnd.transform.position, out castOut))
+		if(Physics.Raycast(gunTurret.transform.position, -gunTurret.transform.up, out castOut, range))
 		{
 			sighted = (castOut.collider.gameObject.tag == "Player");
 			if (sighted && canFire)
@@ -74,22 +78,15 @@ public class GunTurretScript : MonoBehaviour {
 	void fireGun()
 	{
 		//fire Left Gun
-		clone = Instantiate(bulletPrefab, LeftBulletSpawn.gameObject.transform.position, LeftBulletSpawn.gameObject.transform.rotation) as GameObject;
-		clone.transform.position = LeftBulletSpawn.transform.position;
-		clone.SetActive(true);
-		clone.rigidbody.AddForce(-gunTurret.transform.up * bulletSpeed, ForceMode.VelocityChange);
-
-
-		//fire Right Gun
-		clone = Instantiate(bulletPrefab, RightBulletSpawn.gameObject.transform.position, RightBulletSpawn.gameObject.transform.rotation) as GameObject;
-		clone.transform.position = RightBulletSpawn.transform.position;
+		clone = Instantiate(bulletPrefab, bulletSpawn.gameObject.transform.position, Quaternion.identity) as GameObject;
+		clone.transform.position = bulletSpawn.transform.position;
 		clone.SetActive(true);
 		clone.rigidbody.AddForce(-gunTurret.transform.up * bulletSpeed, ForceMode.VelocityChange);
 	}
 	
 	IEnumerator FireDelay()
 	{
-		yield return new WaitForSeconds(0.02f);
+		yield return new WaitForSeconds(rate);
 		canFire = true;
 	}
 
