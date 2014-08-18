@@ -100,6 +100,8 @@ public class GunTurretScript : MonoBehaviour {
         bullets[bulletIter].rigidbody.AddForce(-gunTurret.transform.up * bulletSpeed, ForceMode.VelocityChange);
 
         bulletIter = (bulletIter + 1) % bullets.Length;
+
+        bulletSpawn.GetComponent<ParticleSystem>().Emit(25);
 	}
 	
 	IEnumerator FireDelay()
