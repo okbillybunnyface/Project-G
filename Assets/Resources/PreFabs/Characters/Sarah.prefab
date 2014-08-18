@@ -94,6 +94,7 @@ GameObject:
   - 96: {fileID: 9600000}
   - 54: {fileID: 5400000}
   - 120: {fileID: 12000000}
+  - 114: {fileID: 11400014}
   m_Layer: 8
   m_Name: Sarah
   m_TagString: Player
@@ -862,14 +863,10 @@ MonoBehaviour:
   chargeJumpRate: .100000001
   projectileOffset: 2
   recoil: 9
-  gunCharge: {fileID: 8300000, guid: 7d40728c49bcf44498852147e5e9becc, type: 3}
-  gunFull: {fileID: 8300000, guid: 7061c7642f8cc9846b2642a14ea9f16a, type: 3}
-  gunFire: {fileID: 8300000, guid: eab438b493685254fa20f127a6571ea8, type: 3}
-  gunSource: {fileID: 8200000}
   gravityCone: {fileID: 100004}
+  gravitySpherePrefab: {fileID: 100000, guid: 218c653d256761141a824cd5599ff03a, type: 2}
   projectionBase: {fileID: 100000, guid: afc33ea21fbfce04c89c32bd9bd17e6c, type: 2}
   projectionRenderer: {fileID: 12000000}
-  gravityConeScript: {fileID: 11400000}
   mac: 0
   healthBarGreen: {fileID: 2800000, guid: c8d0166a5006c45e1b1cdc5c7307cfa0, type: 3}
   healthBarRed: {fileID: 2800000, guid: 796d07a8560fe4582820dfcef8e72728, type: 3}
@@ -925,6 +922,19 @@ MonoBehaviour:
   quitButton: {fileID: 0}
   quitButton2: {fileID: 0}
   defaultSkin: {fileID: 0}
+--- !u!114 &11400014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb46c348f155e714ebcabc92a7730796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectionBase: {fileID: 100000, guid: afc33ea21fbfce04c89c32bd9bd17e6c, type: 2}
+  projectionNodes: 100
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

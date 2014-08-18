@@ -3,7 +3,6 @@ using System.Collections;
 
 public class ProjectionBase : MonoBehaviour {
 
-	public int nodes = 100;//number of nodes
 	public float physicsTimeStep = 0.02f;//time parameter in projection calculations
 	public float cascadeDelay = 0.001f;//time before a node projects the next node
 	public float updateDelay = 0.2f;//time delay between node updates
@@ -29,12 +28,14 @@ public class ProjectionBase : MonoBehaviour {
 	//Set the base to be disabled to stop trajectory predictions.
 	void OnDisable()
 	{
+        nodeScript.ResetSources();
+
 		//I disabled this to show off the feature. Normally, this would make the line disappear as soon as projection ceases.
 		//initialNode.SetActive(false);
 	}
 
 	//MUST BE CALLED IMMEDIATELY UPON INSTANTIATION!!!
-	public void Initialize(GameObject creator/*Whatever is initializing this projection*/)
+	public void Initialize(GameObject creator/*Whatever is initializing this projection*/, int nodes)
 	{
 		//Instantiate the first node and put it on top of the projectee
 		initialNode = (GameObject)GameObject.Instantiate(node, transform.position, Quaternion.identity);

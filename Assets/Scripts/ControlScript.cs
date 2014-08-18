@@ -75,11 +75,13 @@ public class ControlScript : MonoBehaviour
 			directionL.y = 0f;
 		}
 		
+        /*
 		if(directionR.magnitude < 0.02f)
 		{
 			directionR = directionL / 2f;
 		}
-		
+		*/
+
 		controlCourier(directionL, directionR, triggers);
 	}
 	

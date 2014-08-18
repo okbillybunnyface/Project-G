@@ -147,7 +147,7 @@ public abstract class GravityScript : MonoBehaviour {
 		return extra;
 	}
 	
-	void SetIsCharging(bool truthiness)
+	public void SetIsCharging(bool truthiness)
 	{
 		isCharging = truthiness;
 	}
@@ -156,16 +156,25 @@ public abstract class GravityScript : MonoBehaviour {
 		this.parent = parent;
 	}
 
+    public void SetEnergy(float energy)
+    {
+        this.energy = energy;
+    }
+    public float GetEnergy()
+    {
+        return this.energy;
+    }
+
 	//Affect type of thing setters
-	void SetAffectPlayer(bool truthiness)
+	public void SetAffectPlayer(bool truthiness)
 	{
 		affectPlayer = truthiness;
 	}
-	void SetAffectEnemies(bool truthiness)
+    public void SetAffectEnemies(bool truthiness)
 	{
 		affectEnemies = truthiness;
 	}
-	void SetAffectOther(bool truthiness)
+    public void SetAffectOther(bool truthiness)
 	{
 		affectOther = truthiness;
 	}

@@ -126,7 +126,7 @@ MonoBehaviour:
   affectOther: 1
   affectPlayer: 1
   affectEnemies: 1
-  isEnvironment: 1
+  isEnvironment: 0
   antiParticles: {fileID: 19800002}
   gravObject: {fileID: 100002}
   antiObject: {fileID: 100004}
@@ -136,6 +136,7 @@ MonoBehaviour:
   dissipationRate: .5
   effectFactor: 3
   isSticky: 0
+  isStable: 0
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

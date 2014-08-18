@@ -23,6 +23,8 @@ public class ProjectionNode : MonoBehaviour {
 		line.SetWidth(0.1f, 0.1f);
 		line.enabled = false;//makes sure the line is off
 
+        gravityList = new GravityList();
+
         line.renderer.sortingLayerName = "Effects";
 
 		//these need to be the same on upon initialization
@@ -37,7 +39,7 @@ public class ProjectionNode : MonoBehaviour {
 		position = transform.position;
 
 		//Resets the linkedlist of nearby gravity sources
-		gravityList = new GravityList();
+        gravityList.Clear();
 	}
 
 	void OnDisable()
@@ -104,6 +106,12 @@ public class ProjectionNode : MonoBehaviour {
 			nodeScript.Initialize(nodeNumber + 1, maxNodes, timeStep, cascadeDelay, projectee);//Initialize the next node with the same parameters, but iterate nodeNumber
 		}
 	}
+
+    public void ResetSources()
+    {
+        gravityList.Clear();
+        if(nextNode != null) nodeScript.ResetSources();
+    }
 
 	//Recursive function to propogate physics calculations.
 	public void Projection(Vector3 position, Vector3 velocity, bool gravity)
