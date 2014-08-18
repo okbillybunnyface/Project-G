@@ -22,6 +22,13 @@ public class GravitySphereScript : GravityScript
         antiParticles.renderer.sortingLayerName = "Effects";
     }
 
+    public void OnEnable()
+    {
+        base.OnEnable();
+        gravParticles.Clear();
+        antiParticles.Clear();
+    }
+
 	//Called once per frame
 	public override void Update()
 	{

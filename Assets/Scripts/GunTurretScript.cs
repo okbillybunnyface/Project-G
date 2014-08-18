@@ -10,15 +10,25 @@ public class GunTurretScript : MonoBehaviour {
 	public float bulletSpeed = 60f;
     public float range = 30;
     public float fireRate = 10f;
+    private GameObject[] bullets;
 	private float rotationAngle = 1; 
 	private bool canFire = true, sighted = false;
     private float rate;
+    private int bulletIter = 0;
+    private int bulletMagSize = 50;//Size of bullet array
 
 
 	void Start () 
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
         rate = 1 / fireRate;
+        
+        bullets = new GameObject[bulletMagSize];
+        for (int b = 0; b < bullets.Length; b++)
+        {
+            bullets[b] = (GameObject)GameObject.Instantiate(bulletPrefab);
+            bullets[b].SetActive(false);
+        }
 	}
 
 	// Update is called once per frame
@@ -50,6 +60,8 @@ public class GunTurretScript : MonoBehaviour {
 		else sighted = false;
 	}
 
+    bool canSwitch = true;
+
 	void shouldGunRotate()
 	{
 		if(sighted)
@@ -58,11 +70,16 @@ public class GunTurretScript : MonoBehaviour {
 		}
 		else
 		{
-			float maxAngle = Vector3.Angle(Vector3.down, (-1 * gunTurret.gameObject.transform.up));
-			if ( maxAngle > 45.0f)
-			{
-				rotationAngle *= -1;
-			}
+			float maxAngle = Vector3.Angle(-transform.up, (-1 * gunTurret.gameObject.transform.up));
+            if (maxAngle > 45.0f)
+            {
+                if (canSwitch)
+                {
+                    rotationAngle *= -1;
+                    canSwitch = false;
+                }
+            }
+            else canSwitch = true;
 			
 			Debug.DrawLine(gunTurret.transform.position,gunSightEnd.transform.position, Color.green);
 			moveGunTurret(rotationAngle);
@@ -77,11 +94,11 @@ public class GunTurretScript : MonoBehaviour {
 
 	void fireGun()
 	{
-		//fire Left Gun
-		clone = Instantiate(bulletPrefab, bulletSpawn.gameObject.transform.position, Quaternion.identity) as GameObject;
-		clone.transform.position = bulletSpawn.transform.position;
-		clone.SetActive(true);
-		clone.rigidbody.AddForce(-gunTurret.transform.up * bulletSpeed, ForceMode.VelocityChange);
+		//fire Gun
+        bullets[bulletIter].GetComponent<BulletScript>().Respawn(bulletSpawn.transform.position);
+        bullets[bulletIter].rigidbody.AddForce(-gunTurret.transform.up * bulletSpeed, ForceMode.VelocityChange);
+
+        bulletIter = (bulletIter + 1) % bullets.Length;
 	}
 	
 	IEnumerator FireDelay()
