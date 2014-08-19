@@ -56,6 +56,8 @@ public class PlayerScript : Character
 
         projectorScript = this.GetComponent<Projector>();
 
+        particleSystem.renderer.sortingLayerName = "Effects";
+
         if (gravitySphere == null) gravitySphere = (GameObject)GameObject.Instantiate(gravitySpherePrefab);
         if (gravityConeScript == null) gravityConeScript = (GravityConeScript)gravityCone.GetComponent("GravityConeScript");
         if (gravitySphereScript == null) gravitySphereScript = (GravitySphereScript)gravitySphere.GetComponent("GravitySphereScript");
