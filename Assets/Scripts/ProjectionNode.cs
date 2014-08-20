@@ -14,13 +14,14 @@ public class ProjectionNode : MonoBehaviour {
 		inGravityField; //Physics.Gravity is disabled in gravity fields
 	private float timeStep, //Time parameter for physics calculations
 		cascadeDelay; //Time before next node activation (currently not used)
+    private float offset = 0f;
 
 	// Use this for initialization
 	void Start () 
 	{
 		//Sets up the line renderer
 		line.SetVertexCount(2);
-		line.SetWidth(0.5f, 0.5f);
+		line.SetWidth(1f, 1f);
 		line.enabled = false;//makes sure the line is off
 
         gravityList = new GravityList();
@@ -72,6 +73,10 @@ public class ProjectionNode : MonoBehaviour {
 				line.enabled = false;
 			}
 		}
+
+        line.material.mainTextureOffset -= new Vector2(0.04f, 0f);
+        if (line.material.mainTextureOffset.x < -0.5f) line.material.mainTextureOffset = new Vector2(0.5f, 0f);
+
 	}
 
 	//When the node collides with a gravity object, it adds the gravity object to its list.
