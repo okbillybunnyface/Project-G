@@ -20,7 +20,7 @@ public class ProjectionNode : MonoBehaviour {
 	{
 		//Sets up the line renderer
 		line.SetVertexCount(2);
-		line.SetWidth(0.1f, 0.1f);
+		line.SetWidth(0.5f, 0.5f);
 		line.enabled = false;//makes sure the line is off
 
         gravityList = new GravityList();

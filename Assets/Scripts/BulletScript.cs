@@ -5,6 +5,7 @@ public class BulletScript : MonoBehaviour {
 
     public float damage = 0f;
     public float lifetime = 5f;
+    public int explosionParticles = 30;
     private Projector projector;
 
     void Start()
@@ -24,7 +25,7 @@ public class BulletScript : MonoBehaviour {
         collider.enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         if (projector != null) projector.Disable();
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < explosionParticles; i++)
         {
             particleSystem.Emit(transform.position, new Vector3(Random.value * 10 - 5, Random.value * 10 - 5, 0f), Random.value, Random.value * 2, particleSystem.startColor);
         }
