@@ -157,7 +157,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1 &345000222
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,7 +190,7 @@ Transform:
   - {fileID: 1089118871}
   - {fileID: 376952690}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!212 &345000224
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -225,7 +225,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 15
+  m_Radius: 30
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &345000226
 Rigidbody:
@@ -264,7 +264,7 @@ MonoBehaviour:
   affectOther: 1
   affectPlayer: 1
   affectEnemies: 1
-  isEnvironment: 1
+  isEnvironment: 0
   antiParticles: {fileID: 376952689}
   gravObject: {fileID: 1089118870}
   antiObject: {fileID: 376952687}
@@ -274,6 +274,7 @@ MonoBehaviour:
   dissipationRate: .5
   effectFactor: 3
   isSticky: 0
+  isStable: 0
 --- !u!1 &376952687
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +285,7 @@ GameObject:
   - 4: {fileID: 376952690}
   - 198: {fileID: 376952689}
   - 199: {fileID: 376952688}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: antiEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1422,11 +1423,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 423936837}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 161.754517, y: 2.58241892, z: 0}
+  m_LocalPosition: {x: 133.750626, y: -12.7383461, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
 --- !u!114 &423936839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1438,13 +1439,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6badf8c7a825c4d0f9d40fee49c2d5d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberCars: 1
-  speed: 0
-  distance: 0
-  laptime: 0
+  numberCars: 5
+  speed: 2
   allStops:
   - {fileID: 1101545646}
   - {fileID: 682618611}
+  - {fileID: 1406965680}
   platform: {fileID: 100000, guid: ecfba7e8b43b94207986809ae8c29fc3, type: 2}
 --- !u!1 &442102265
 GameObject:
@@ -1478,7 +1478,7 @@ Transform:
   - {fileID: 1920552722}
   - {fileID: 660170762}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!212 &442102267
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1513,7 +1513,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 15
+  m_Radius: 30
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &442102269
 Rigidbody:
@@ -1552,7 +1552,7 @@ MonoBehaviour:
   affectOther: 1
   affectPlayer: 1
   affectEnemies: 1
-  isEnvironment: 1
+  isEnvironment: 0
   antiParticles: {fileID: 660170763}
   gravObject: {fileID: 1920552719}
   antiObject: {fileID: 660170761}
@@ -1562,6 +1562,7 @@ MonoBehaviour:
   dissipationRate: .5
   effectFactor: 3
   isSticky: 0
+  isStable: 0
 --- !u!1 &660170761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,7 +1573,7 @@ GameObject:
   - 4: {fileID: 660170762}
   - 198: {fileID: 660170763}
   - 199: {fileID: 660170764}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: antiEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2696,7 +2697,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 682618611}
   m_Layer: 0
-  m_Name: Stop
+  m_Name: Stop 2
   m_TagString: Untagged
   m_Icon: {fileID: 266726316, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -2709,11 +2710,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 682618610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 187.578903, y: 21.598568, z: 0}
+  m_LocalPosition: {x: 143.95166, y: -8.24311829, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
 --- !u!1 &750044880
 GameObject:
   m_ObjectHideFlags: 0
@@ -2778,7 +2779,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 3
 --- !u!1001 &758529064
 Prefab:
   m_ObjectHideFlags: 0
@@ -2816,7 +2817,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: cda75ff8c64424d858dcf37d32defa8b, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cda75ff8c64424d858dcf37d32defa8b, type: 2}
@@ -2833,7 +2834,7 @@ GameObject:
   - 4: {fileID: 1089118871}
   - 198: {fileID: 1089118873}
   - 199: {fileID: 1089118872}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: gravEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3957,7 +3958,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1101545646}
   m_Layer: 0
-  m_Name: Stop
+  m_Name: Stop 1
   m_TagString: Untagged
   m_Icon: {fileID: 266726316, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -3974,7 +3975,34 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
+--- !u!1 &1406965679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1406965680}
+  m_Layer: 0
+  m_Name: Stop 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 266726316, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1406965680
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1406965679}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 147.717712, y: -16.2611618, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
 --- !u!1001 &1416652109
 Prefab:
   m_ObjectHideFlags: 0
@@ -4068,7 +4096,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &1920552719
 GameObject:
   m_ObjectHideFlags: 0
@@ -4079,7 +4107,7 @@ GameObject:
   - 4: {fileID: 1920552722}
   - 198: {fileID: 1920552721}
   - 199: {fileID: 1920552720}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: gravEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5231,7 +5259,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 218c653d256761141a824cd5599ff03a, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 218c653d256761141a824cd5599ff03a, type: 2}
       propertyPath: initialEnergy
