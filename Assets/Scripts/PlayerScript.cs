@@ -323,16 +323,16 @@ public class PlayerScript : Character
         base.Die();
 
         GameObject part = (GameObject)Instantiate(Resources.Load("PreFabs/Characters/sarah_arm_0"), transform.position, Quaternion.identity);
-        part.rigidbody.AddForce(new Vector3(Random.value * 50 - 25, Random.value * 50 - 25, 0f), ForceMode.VelocityChange);
+        part.rigidbody.AddForce(new Vector3(Random.value * 40 - 20, Random.value * 40 - 20, 0f), ForceMode.VelocityChange);
 
         part = (GameObject)Instantiate(Resources.Load("PreFabs/Characters/sarah_arm_0"), transform.position, Quaternion.identity);
-        part.rigidbody.AddForce(new Vector3(Random.value * 50 - 25, Random.value * 50 - 25, 0f), ForceMode.VelocityChange);
+        part.rigidbody.AddForce(new Vector3(Random.value * 40 - 20, Random.value * 40 - 20, 0f), ForceMode.VelocityChange);
 
         part = (GameObject)Instantiate(Resources.Load("PreFabs/Characters/sarah_leg_0"), transform.position, Quaternion.identity);
-        part.rigidbody.AddForce(new Vector3(Random.value * 50 - 25, Random.value * 50 - 25, 0f), ForceMode.VelocityChange);
+        part.rigidbody.AddForce(new Vector3(Random.value * 40 - 20, Random.value * 40 - 20, 0f), ForceMode.VelocityChange);
 
         part = (GameObject)Instantiate(Resources.Load("PreFabs/Characters/sarah_leg_0"), transform.position, Quaternion.identity);
-        part.rigidbody.AddForce(new Vector3(Random.value * 50 - 25, Random.value * 50 - 25, 0f), ForceMode.VelocityChange);
+        part.rigidbody.AddForce(new Vector3(Random.value * 40 - 20, Random.value * 40 - 20, 0f), ForceMode.VelocityChange);
     }
 
 	//Coroutine that handles the jump during timestop mode

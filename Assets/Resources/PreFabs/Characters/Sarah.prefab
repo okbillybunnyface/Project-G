@@ -818,7 +818,7 @@ MonoBehaviour:
   jetPackForce: 400
   jetPackDrain: 15
   chargeJumpEnergy: .75
-  chargeJumpRate: 1
+  chargeJumpRate: 10
   projectileOffset: 2
   recoil: 9
   gravityCone: {fileID: 100004}
@@ -4118,7 +4118,7 @@ ParticleSystem:
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: 1
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4133,7 +4133,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 0
+          value: .25
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -4141,7 +4141,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 3
     startSpeed:
-      scalar: 1
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:

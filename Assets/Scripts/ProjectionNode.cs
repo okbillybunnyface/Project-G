@@ -238,15 +238,18 @@ public class ProjectionNode : MonoBehaviour {
 	//Calculates the color of the line
 	Color GetColor(Vector3 velocity)
 	{
+        float green = 50f;
+        float tempVel = velocity.magnitude;
+        if (tempVel > green) tempVel = green;
 		float temp;
-		if(velocity.magnitude / Character.maxSpeed >= 0.75f)
+        if (tempVel / green >= 0.75f)
 		{
-            temp = 1020f * velocity.magnitude / Character.maxSpeed - 765f;
+            temp = 1020f * tempVel / green - 765f;
 			return new Color(255f - temp, 255f, 0f);
 		}
-		else if(velocity.magnitude / Character.maxSpeed >= 0.5f)
+        else if (tempVel / green >= 0.5f)
 		{
-            temp = 1020f * velocity.magnitude / Character.maxSpeed - 510f;
+            temp = 1020f * tempVel / green - 510f;
 			return new Color(255f, 255f - temp, 0f);
 		}
 		else

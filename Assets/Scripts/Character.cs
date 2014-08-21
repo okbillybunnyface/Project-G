@@ -100,7 +100,7 @@ public abstract class Character : Movement
 		health -= amount;
 		
 		//Blooooooood
-		bloodParticles.Emit((int) amount);
+		bloodParticles.Emit((int) amount * 2);
 		
 		if(health <= 0)
 		{

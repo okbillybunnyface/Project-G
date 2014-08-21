@@ -15,7 +15,7 @@ public class BodyPart : MonoBehaviour {
 
     IEnumerator GoreTimer()
     {
-        yield return new WaitForSeconds(Random.value * time);
+        yield return new WaitForSeconds(Random.value * time + 1f);
 
         collider.enabled = false;
         sprite.enabled = false;
