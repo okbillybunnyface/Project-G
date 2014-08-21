@@ -2141,7 +2141,7 @@ MonoBehaviour:
   gunTurret: {fileID: 1321706283}
   bulletPrefab: {fileID: 100000, guid: 86a1d6db0cf3b6042933e64bcd5037a7, type: 2}
   bulletSpawn: {fileID: 1806152686}
-  maxAngle: 15
+  maxAngle: 25
   rotationSpeed: 20
   bulletSpeed: 30
   range: 50
@@ -2181,7 +2181,7 @@ Transform:
   m_Children:
   - {fileID: 1321706284}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1 &1116681889
 GameObject:
   m_ObjectHideFlags: 0
@@ -6740,7 +6740,7 @@ Transform:
   - {fileID: 377941808}
   - {fileID: 1205842225}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &1713804954
 GameObject:
   m_ObjectHideFlags: 0
@@ -6874,6 +6874,10 @@ Prefab:
     - target: {fileID: 400004, guid: 21d7746f52e094c4590df7d9b69093cc, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 21d7746f52e094c4590df7d9b69093cc, type: 2}
+      propertyPath: maxAngle
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 21d7746f52e094c4590df7d9b69093cc, type: 2}

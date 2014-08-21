@@ -116,7 +116,7 @@ public abstract class Character : Movement
 	public abstract void Respawn();
 
 	//Does whatever happens when this entity dies.
-	public void Die()
+	public virtual void Die()
 	{
 		//AudioSource.PlayClipAtPoint(death,this.transform.position);
 		for (int i = 0; i < this.transform.GetChildCount(); ++i)

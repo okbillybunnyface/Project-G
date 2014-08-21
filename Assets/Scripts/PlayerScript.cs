@@ -56,6 +56,8 @@ public class PlayerScript : Character
 
         projectorScript = this.GetComponent<Projector>();
 
+        particleSystem.renderer.sortingLayerName = "Effects";
+
         if (gravitySphere == null) gravitySphere = (GameObject)GameObject.Instantiate(gravitySpherePrefab);
         if (gravityConeScript == null) gravityConeScript = (GravityConeScript)gravityCone.GetComponent("GravityConeScript");
         if (gravitySphereScript == null) gravitySphereScript = (GravitySphereScript)gravitySphere.GetComponent("GravitySphereScript");
@@ -314,6 +316,23 @@ public class PlayerScript : Character
         jetpackParticles.Emit(200);
         jetpackParticles.startLifetime = tempLife;
         jetpackParticles.startSpeed = tempSpeed;
+    }
+    
+    public override void Die()
+    {
+        base.Die();
+
+        GameObject part = (GameObject)Instantiate(Resources.Load("PreFabs/Characters/sarah_arm_0"), transform.position, Quaternion.identity);
+        part.rigidbody.AddForce(new Vector3(Random.value * 50 - 25, Random.value * 50 - 25, 0f), ForceMode.VelocityChange);
+
+        part = (GameObject)Instantiate(Resources.Load("PreFabs/Characters/sarah_arm_0"), transform.position, Quaternion.identity);
+        part.rigidbody.AddForce(new Vector3(Random.value * 50 - 25, Random.value * 50 - 25, 0f), ForceMode.VelocityChange);
+
+        part = (GameObject)Instantiate(Resources.Load("PreFabs/Characters/sarah_leg_0"), transform.position, Quaternion.identity);
+        part.rigidbody.AddForce(new Vector3(Random.value * 50 - 25, Random.value * 50 - 25, 0f), ForceMode.VelocityChange);
+
+        part = (GameObject)Instantiate(Resources.Load("PreFabs/Characters/sarah_leg_0"), transform.position, Quaternion.identity);
+        part.rigidbody.AddForce(new Vector3(Random.value * 50 - 25, Random.value * 50 - 25, 0f), ForceMode.VelocityChange);
     }
 
 	//Coroutine that handles the jump during timestop mode

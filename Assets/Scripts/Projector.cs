@@ -8,6 +8,7 @@ public class Projector : MonoBehaviour
     private Vector3 velocity, position;
     private bool useGravity;
     private ProjectionBase projectionScript;
+    bool enabled = false;
 
     void Start()
     {
@@ -18,12 +19,24 @@ public class Projector : MonoBehaviour
 
     void OnEnable()
     {
-        PlayerScript.Show_Projection += ShowProjection;
+        Enable();
     }
 
     void OnDisable()
     {
-        PlayerScript.Show_Projection -= ShowProjection;
+        Disable();
+    }
+
+    public void Enable()
+    {
+        if (!enabled) PlayerScript.Show_Projection += ShowProjection;
+        enabled = true;
+    }
+
+    public void Disable()
+    {
+        if (enabled) PlayerScript.Show_Projection -= ShowProjection;
+        enabled = false;
     }
 
     void ShowProjection(bool truthiness)
