@@ -31,9 +31,10 @@ public class PlayerScript : Character
     public bool mac = false;
     public Texture2D healthBarGreen, healthBarRed;
 
-    private GameObject gravitySphere;
+    private GameObject[] gravitySphere = new GameObject[10];
+    private int sphereIter = 0;
     private GravityConeScript gravityConeScript;
-    private GravitySphereScript gravitySphereScript;
+    private GravitySphereScript[] gravitySphereScript = new GravitySphereScript[10];
     private GameObject spawnPoint;
 	private Projector projectorScript;
 	private GameObject[] gravityClip = new GameObject[100];
@@ -58,15 +59,19 @@ public class PlayerScript : Character
 
         particleSystem.renderer.sortingLayerName = "Effects";
 
-        if (gravitySphere == null) gravitySphere = (GameObject)GameObject.Instantiate(gravitySpherePrefab);
+        for (sphereIter = 0; sphereIter < gravitySphere.Length; sphereIter++)
+        {
+            if (gravitySphere == null) gravitySphere[sphereIter] = (GameObject)GameObject.Instantiate(gravitySpherePrefab);
+            if (gravitySphereScript == null) gravitySphereScript[sphereIter] = (GravitySphereScript)gravitySphere[sphereIter].GetComponent("GravitySphereScript");
+            gravitySphere[sphereIter].SetActive(true);
+            gravitySphereScript[sphereIter].affectEnemies = true;
+            gravitySphereScript[sphereIter].affectOther = true;
+            gravitySphereScript[sphereIter].affectPlayer = true;
+            gravitySphereScript[sphereIter].isStable = true;
+            gravitySphereScript[sphereIter].isEnvironment = false;
+        }
+
         if (gravityConeScript == null) gravityConeScript = (GravityConeScript)gravityCone.GetComponent("GravityConeScript");
-        if (gravitySphereScript == null) gravitySphereScript = (GravitySphereScript)gravitySphere.GetComponent("GravitySphereScript");
-        gravitySphere.SetActive(true);
-        gravitySphereScript.affectEnemies = true;
-        gravitySphereScript.affectOther = true;
-        gravitySphereScript.affectPlayer = true;
-        gravitySphereScript.isStable = true;
-        gravitySphereScript.isEnvironment = false;
 	}
 	
 	//Called whenever the gameObject is enabled.
@@ -339,9 +344,9 @@ public class PlayerScript : Character
 	IEnumerator TimeStop()
 	{
 		Vector3 force = Vector3.zero;//Force for jump
-        gravitySphere.SetActive(true);
-        gravitySphere.SetActive(false);
-        gravitySphereScript.SetIsStable(true);
+        gravitySphere[sphereIter].SetActive(true);
+        gravitySphere[sphereIter].SetActive(false);
+        gravitySphereScript[sphereIter].SetIsStable(true);
         float sphereEnergy = 0;
         float maxSphereDist = 30f;
         float sphereMoveRate = 0.2f;
@@ -359,17 +364,17 @@ public class PlayerScript : Character
 
             if (triggers != 0)
             {
-                if (!gravitySphere.activeSelf)
+                if (!gravitySphere[sphereIter].activeSelf)
                 {
-                    gravitySphere.transform.position = transform.position;
-                    gravitySphere.SetActive(true);
+                    gravitySphere[sphereIter].transform.position = transform.position;
+                    gravitySphere[sphereIter].SetActive(true);
                 }
             }
 
             //Calculate what our velocity change will be after this update
             Vector3 tempForce = force + directionL * chargeJumpRate * (deltaTime);
             //Calculate what the gravity sphere's energy will be after this update
-            sphereEnergy = gravitySphereScript.GetEnergy() + chargeRate * deltaTime * triggers;
+            sphereEnergy = gravitySphereScript[sphereIter].GetEnergy() + chargeRate * deltaTime * triggers;
 
             //If the force is greater than the max, reset it to the max
             if (tempForce.sqrMagnitude > (jumpForce/2) * (jumpForce/2))
@@ -377,15 +382,15 @@ public class PlayerScript : Character
                 tempForce = tempForce.normalized * jumpForce / 2;
             }
 
-            if (gravitySphere.activeSelf)
+            if (gravitySphere[sphereIter].activeSelf)
             {
-                gravitySphere.transform.position += directionR * sphereMoveRate;
-                if ((gravitySphere.transform.position - transform.position).sqrMagnitude > maxSphereDist * maxSphereDist)
+                gravitySphere[sphereIter].transform.position += directionR * sphereMoveRate;
+                if ((gravitySphere[sphereIter].transform.position - transform.position).sqrMagnitude > maxSphereDist * maxSphereDist)
                 {
-                    gravitySphere.transform.position = transform.position + (gravitySphere.transform.position - transform.position).normalized * maxSphereDist;
+                    gravitySphere[sphereIter].transform.position = transform.position + (gravitySphere[sphereIter].transform.position - transform.position).normalized * maxSphereDist;
                 }
 
-                gravitySphereScript.ParticleUpdate();
+                gravitySphereScript[sphereIter].ParticleUpdate();
             }
 
             //Calculate the cost
@@ -396,9 +401,9 @@ public class PlayerScript : Character
             {
                 energy = originalEnergy - tempCost;
                 force = tempForce;
-                if (gravitySphere.activeSelf)
+                if (gravitySphere[sphereIter].activeSelf)
                 {
-                    gravitySphereScript.SetEnergy(sphereEnergy);
+                    gravitySphereScript[sphereIter].SetEnergy(sphereEnergy);
                 }
             }
 
@@ -422,15 +427,16 @@ public class PlayerScript : Character
         //BAM. SUCH FORCE. WOW.
         rigidbody.AddForce(force, ForceMode.VelocityChange);
 
-        if (gravitySphere.activeSelf)
+        if (gravitySphere[sphereIter].activeSelf)
         {
-            gravitySphereScript.StartDespawnTimer(5f);
+            gravitySphereScript[sphereIter].StartDespawnTimer(5f);
         }
 
-        gravitySphereScript.SetIsCharging(false);
-        gravitySphereScript.gravParticles.Play();
-        gravitySphereScript.antiParticles.Play();
+        gravitySphereScript[sphereIter].SetIsCharging(false);
+        gravitySphereScript[sphereIter].gravParticles.Play();
+        gravitySphereScript[sphereIter].antiParticles.Play();
 
+        sphereIter = (sphereIter + 1) % gravitySphere.Length;
 
 		//Reset the time stuff to normal
 		Time.timeScale = 1;
